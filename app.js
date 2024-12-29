@@ -583,27 +583,49 @@ app.get('/book-room/:id', auth,async (req, res) => {
     res.status(500).send('Internal Server Error');
   }
 });
-const session = require('express-session');  
+const session = require('express-session');
+const MongoStore = require('connect-mongo');
 const svgCaptcha = require('svg-captcha');
+
 app.use(session({
-  secret: process.env.SESSION_SECRET || 'your-secret-key', // Replace with a strong secret key
+  secret: process.env.SESSION_SECRET || 'your-secret-key', // Use a strong secret key in production
   resave: false,
   saveUninitialized: true,
-  cookie: { secure: false } // For development; set 'secure: true' in production with HTTPS
-})); 
+  store: MongoStore.create({
+    mongoUrl: process.env.DATABASE_URL, // MongoDB URI for storing sessions
+    ttl: 14 * 24 * 60 * 60 // Session TTL (14 days)
+  }),
+  cookie: {
+    secure: process.env.NODE_ENV === 'production', // Only set to true in production with HTTPS
+    httpOnly: true, // Prevent client-side JavaScript access to cookies
+    maxAge: 14 * 24 * 60 * 60 * 1000 // Set cookie expiration (in ms)
+  }
+}));
 
+// CAPTCHA generation endpoint
 app.get('/captcha', (req, res) => {
   const captcha = svgCaptcha.create({
-      size: 6, // Number of characters
-      noise: 3, // Number of noise lines
-      color: true,
-      background: '#f8f9fa',
+    size: 6, // Number of characters in CAPTCHA
+    noise: 3, // Number of noise lines
+    color: true, // Colorful characters
+    background: '#f8f9fa', // Background color
   });
-  req.session.captcha = captcha.text; // Save CAPTCHA text in the session
-  res.type('svg');
-  res.send(captcha.data);
-});
   
+  req.session.captcha = captcha.text; // Save CAPTCHA text in session
+  res.type('svg');
+  res.send(captcha.data); // Send CAPTCHA SVG
+});
+
+// Example CAPTCHA validation endpoint
+app.post('/verify-captcha', (req, res) => {
+  const userCaptcha = req.body.captcha; // Get the user's CAPTCHA input
+  if (userCaptcha === req.session.captcha) {
+    res.send('CAPTCHA verification successful!');
+  } else {
+    res.send('CAPTCHA verification failed. Please try again.');
+  }
+});
+
 
 // PayPal payment route
 app.post('/book-room/:roomId', auth, async (req, res) => {
