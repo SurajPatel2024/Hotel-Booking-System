@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Taj Hotel</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <link rel="stylesheet" href="/style.css" />
+   
+</head>
+ 
+<body>
+   
+    <nav>
+     
+        <div class="nav-container">
+            <h2 class="logo"> <i class="fas fa-crown"></i> Taj Hotel</h2>
+            <ul class="nav-links">
+                <li><a href="/UserHome"> <i class="fas fa-home" style="font-size: 1.1rem;"></i> Home</a></li>
+                <li><a href="#about"><i class="fas fa-info-circle" style="font-size: 1.1rem;"></i> About Us</a></li>
+                <li><a href="#contact"><i class="fas fa-envelope" style="font-size: 1.1rem;"></i> Contact</a></li>
+             
+
+                <% if (user) { %>
+                <li class="user-dropdown" style="cursor: pointer;">
+                    <i class="fas fa-user-circle" style="font-size: 1.1rem;"></i>
+                    <span><%= user.username %></span>
+                    <div class="dropdown-menu">
+                        <a href="/user-bookings"><i class="fas fa-calendar-check"></i> My Bookings</a>
+                        <a href="/logout"><i class="fas fa-sign-out-alt" style="font-size: 1.1rem;"></i> Logout</a>
+                    </div>
+                </li>
+                <% } else { %>
+                <li><a href="/login"><i class="fas fa-sign-in-alt"></i> User Login</a></li>
+                <% } %>
+                <li><a href="/admin/dashboard"><i class="fas fa-sign-in-alt"></i> Admin Login</a></li>
+
+            </ul>
+        </div>
+      
+    </nav>
+
+    <div class="slideshow-container">
+        <div class="mySlides fade">
+            <div class="text">Experience Luxury at Taj</div>
+          <img src="https://images.hindustantimes.com/rf/image_size_960x540/HT/p2/2018/12/15/Pictures/_9f2b6346-ffd3-11e8-9457-b1b429387a4e.jpg" alt="">
+        </div>
+
+        <div class="mySlides fade">
+            <div class="text">Opulent Stays Await You</div>
+            <img src="https://images.pexels.com/photos/12460246/pexels-photo-12460246.jpeg?cs=srgb&dl=pexels-dipinder-rainu-247864103-12460246.jpg&fm=jpg" alt="">
+        </div>
+
+        <div class="mySlides fade">
+            <div class="text">Your Dream Vacation Begins Here</div>
+             <img src="https://cf.bstatic.com/xdata/images/hotel/max1024x768/103705059.jpg?k=9e078265b31ad1815a573da8ed2a665f863e3925e1efd730df703421868a2ada&o=&hp=1" alt="">
+        </div>
+    </div>
+
+    <div class="dot-container">
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+    </div>
+
+    
+
+ 
+<!-- Welcome Section -->
+<div class="welcome" id="welcome">
+    <h2>Welcome to Our Hotel</h2>
+    <p>We are delighted to have you with us! Whether you’re here for business, leisure, or a special occasion, our rooms offer the perfect blend of comfort and luxury to make your stay unforgettable.</p>
+    
+    <div class="accommodation-options">
+        <div class="accommodation-option room-type-four">
+            <h3><i class="fas fa-bed"></i> Single Room</h3>
+            <p>Perfect for solo travelers looking for a cozy and private space, equipped with all the essential amenities for a comfortable stay.</p>
+        </div>
+        <div class="accommodation-option room-type-five">
+            <h3><i class="fas fa-users"></i> Double Room</h3>
+            <p>Ideal for couples or friends, these spacious and comfortable rooms feature a king-size bed and modern amenities to enhance your experience.</p>
+        </div>
+        <div class="accommodation-option">
+            <h3><i class="fas fa-crown room-type-six" ></i> Suite</h3>
+            <p>For those seeking extra space and luxury, our suites offer premium amenities, stunning views, and a truly elevated experience.</p>
+        </div>
+         <div class="accommodation-option room-type-one">
+        <h3><i class="fas fa-bed"></i> Standard Room</h3>
+        <p>A cozy room with basic amenities</p>
+    </div>
+    <div class="accommodation-option room-type-two">
+        <h3><i class="fas fa-couch"></i> Deluxe Room</h3>
+        <p>Spacious room with a beautiful view</p>
+    </div>
+    <div class="accommodation-option room-type-three">
+        <h3><i class="fas fa-crown"></i> Luxury Suite</h3>
+        <p>Premium suite with world-class facilities</p>
+    </div>
+    </div>
+</div>
+
+
+
+    <!-- Main Content -->
+    <div class="container">
+        <h2>Available Rooms</h2>
+        <ul class="room-list">
+            <% rooms.forEach(room => { %>
+            <li>
+                <% if (room.image && room.image.data) { %>
+                <img src="data:<%= room.image.contentType %>;base64,<%= room.image.data.toString('base64') %>" alt="Room Image" width="500" >
+                <% } else { %>
+                <p>No image available</p>
+                <% } %>
+                <div class="room-info">
+                    <strong>Room <%= room.roomNumber %></strong> - Type: <%= room.type %> <br> Price: ₹<%= room.price %>
+                </div>
+                <div class="room-description">
+                    <% if (room.type === "Single") { %>
+                        <div class="room-features">
+                            <i class="fas fa-bed"></i> Single Bed  
+                            <i class="fas fa-wifi"></i> Free Wi-Fi  
+                            <i class="fas fa-tv"></i> Flat Screen TV  
+                            <i class="fas fa-shower"></i> Ensuite Bathroom  
+                            <i class="fas fa-snowflake"></i> Air Conditioning  
+                            <i class="fas fa-utensils"></i> Room Service  
+                            <p><%= room.description %></p>
+                        </div>
+                    <% } else if (room.type === "Double") { %>
+                        <div class="room-features">
+                            <i class="fas fa-bed"></i> Double Beds  
+                            <i class="fas fa-wifi"></i> Free Wi-Fi  
+                            <i class="fas fa-tv"></i> Flat Screen TV  
+                            <i class="fas fa-shower"></i> Ensuite Bathroom  
+                            <i class="fas fa-snowflake"></i> Air Conditioning  
+                            <i class="fas fa-utensils"></i> Room Service  
+                            <i class="fas fa-phone"></i> Direct Dial Phone  
+                            <p><%= room.description %></p>
+                        </div>
+                    <% } else if (room.type === "Suite") { %>
+                        <div class="room-features">
+                            <i class="fas fa-bed"></i> King-Sized Bed  
+                            <i class="fas fa-couch"></i> Living Area   
+                            <i class="fas fa-wifi"></i> Free Wi-Fi  
+                            <i class="fas fa-tv"></i> Flat Screen TV  
+                            <i class="fas fa-bath"></i> Luxury Bathroom  
+                            <i class="fas fa-snowflake"></i> Air Conditioning  
+                            <i class="fas fa-utensils"></i> Room Service  
+                            <i class="fas fa-coffee"></i> Coffee Maker  
+                            <i class="fas fa-phone"></i> Direct Dial Phone  
+                            <p><%= room.description %></p>
+                        </div>
+                    <% } else if (room.type === "Penthouse") { %>
+                        <div class="room-features">
+                            <i class="fas fa-bed"></i> King-Sized Bed  
+                            <i class="fas fa-couch"></i> Living and Dining Areas  
+                            <i class="fas fa-wifi"></i> Free Wi-Fi  
+                            <i class="fas fa-tv"></i> Flat Screen TV  
+                            <i class="fas fa-bath"></i> Luxury Bathroom with Jacuzzi  
+                            <i class="fas fa-snowflake"></i> Air Conditioning  
+                            <i class="fas fa-utensils"></i> Room Service  
+                            <i class="fas fa-coffee"></i> Coffee Maker  
+                            <i class="fas fa-phone"></i> Direct Dial Phone  
+                            <i class="fas fa-pool"></i> Private Pool  
+                            <i class="fas fa-lemon"></i> Mini-Bar  
+                            <p><%= room.description %></p>
+                        </div>
+                    <% } else if (room.type === "Dormitory") { %>
+                        <div class="room-features">
+                            <i class="fas fa-bed"></i> Multiple Beds  
+                            <i class="fas fa-wifi"></i> Free Wi-Fi 
+                            <i class="fas fa-shower"></i> Shared Bathroom 
+                            <i class="fas fa-snowflake"></i> Air Conditioning  
+                            <i class="fas fa-utensils"></i> Shared Room Service  
+                            <i class="fas fa-lock"></i> Locker Storage  
+                            <p><%= room.description %></p>
+                        </div>
+                    <% } else if (room.type === "Family") { %>
+                        <div class="room-features">
+                            <i class="fas fa-bed"></i> Multiple Beds (Twin, Queen, or Sofa)  
+                            <i class="fas fa-wifi"></i> Free Wi-Fi  
+                            <i class="fas fa-tv"></i> Flat Screen TV  
+                            <i class="fas fa-shower"></i> Ensuite Bathroom  
+                            <i class="fas fa-snowflake"></i> Air Conditioning  
+                            <i class="fas fa-utensils"></i> Room Service  
+                            <i class="fas fa-baby-carriage"></i> Baby Crib Available (on request)  
+                            <p><%= room.description %></p>
+                        </div>
+                    <% } else if (room.type === "Accessible") { %>
+                        <div class="room-features">
+                            <i class="fas fa-bed"></i> Accessible Bed  
+                            <i class="fas fa-wifi"></i> Free Wi-Fi  
+                            <i class="fas fa-tv"></i> Flat Screen TV  
+                            <i class="fas fa-shower"></i> Accessible Bathroom  
+                            <i class="fas fa-snowflake"></i> Air Conditioning  
+                            <i class="fas fa-utensils"></i> Room Service  
+                            <i class="fas fa-wheelchair"></i> Wheelchair Access  
+                            <p><%= room.description %></p>
+                        </div>
+                    <% } %>
+                     </div>
+                
+                
+                   
+            
+                
+                <% if (room.status === 'Available') { %>
+                <span class="room-status available"><%= room.status %></span>
+                <a href="/book-room/<%= room._id %>" class="book-btn">
+                    <i class="fas fa-bed"></i> Book Room
+                </a>
+                <% } else { %>
+                <span class="room-status booked"><%= room.status %></span>
+                <% } %>
+            </li>
+            <% }) %>
+        </ul>
+    </div>
+<!-- About Section -->
+<div class="about-section" id="about">
+    <div class="about-content">
+        <h2>About Us</h2>
+        <p>We are a passionate team dedicated to providing the best hotel room booking experience. Our mission is to make booking a hotel room simple, fast, and reliable. Whether you're on vacation, a business trip, or just looking for a staycation, we have rooms that fit your needs. Explore our wide range of available rooms and start your journey with us today!</p>
+    </div>
+</div>
+<!-- Contact Form Section -->
+
+<div class="contact-section" id="contact">
+    <h2>Contact Us</h2>
+<% if (user) { %>
+    <form action="/submit" method="POST" class="contact-form">
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" placeholder="Your Name" value="<%= user.username %>"  required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" placeholder="Your Email" value="<%=  user.email %>"   required>
+            </div>
+            <div class="form-group">
+                <label for="message">Message</label>
+                <textarea id="message" name="message" placeholder="Your Message" rows="4" required></textarea>
+            </div>
+            <button type="submit" class="submit-btn">Submit</button>
+        </form>
+    </div>
+    <% } else { %>
+    <p>You cannot contact, please login first!</p>
+ 
+    <% } %>
+
+
+ 
+
+
+
+
+    <!-- Footer Section -->
+    <footer>
+        <p>&copy; 2024 Taj Hotel. All Rights Reserved.</p>
+    </footer>
+
+</body>
+<script>
+    let slideIndex = 0;
+showSlides();
+
+function showSlides() {
+    let i;
+    let slides = document.getElementsByClassName("mySlides");
+    let dots = document.getElementsByClassName("dot");
+    for (i = 0; i < slides.length; i++) {
+        slides[i].style.display = "none";
+    }
+    slideIndex++;
+    if (slideIndex > slides.length) { slideIndex = 1 }
+    for (i = 0; i < dots.length; i++) {
+        dots[i].className = dots[i].className.replace(" active", "");
+    }
+    slides[slideIndex - 1].style.display = "block";
+    dots[slideIndex - 1].className += " active";
+    setTimeout(showSlides, 2000); // Change image every 2 seconds
+}
+
+</script>
+ 
+ 
+</html>

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Bookings - Admin</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            position: relative;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .search-bar {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .search-bar input {
+            padding: 8px;
+            width: 300px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .actions a {
+            text-decoration: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+        }
+        .edit {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .delete {
+            background-color: #f44336;
+            color: white;
+        }
+        .view-details {
+            background-color: #2196F3;
+            color: white;
+        }
+        .edit:hover, .delete:hover, .view-details:hover {
+            opacity: 0.8;
+        }
+        .no-bookings {
+            text-align: center;
+            color: #666;
+        }
+        .back-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            font-size: 16px;
+            border-radius: 4px;
+            text-decoration: none;
+        }
+        .back-btn:hover {
+            background-color: #1e6420;
+        }
+    </style>
+</head>
+<body>
+    <!-- Back to Home Button -->
+    <a href="/admin/dashboard" class="back-btn">Go Dashboard</a>
+
+    <h1>Manage Bookings</h1>
+
+    <!-- Search Bar -->
+    <div class="search-bar">
+        <input type="text" id="searchInput" placeholder="Search by User Name, Contact, or Payment Status">
+    </div>
+
+    <!-- Booking Table -->
+    <div id="bookingContainer">
+        <% if (bookings.length === 0) { %>
+            <p class="no-bookings">No bookings found.</p>
+        <% } else { %>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Booking ID</th>
+                        <th>Room Number</th>
+                        <th>User Name</th>
+                        <th>User Email</th>
+                        <th>Contact</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                        <th>Payment Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% bookings.forEach(booking => { %>
+                        <tr data-user-name="<%= booking.userName.toLowerCase() %>" 
+                            data-user-contact="<%= booking.userContact.toLowerCase() %>" 
+                            data-payment-status="<%= booking.paymentStatus.toLowerCase() %>">
+                            <td><%= booking._id %></td>
+                            <td><%= booking.room?.roomNumber || 'N/A' %></td>
+                            <td><%= booking.userName %></td>
+                            <td><%= booking.email %></td>
+                            <td><%= booking.userContact %></td>
+                            <td><%= new Date(booking.startDate).toLocaleDateString() %></td>
+                            <td><%= new Date(booking.endDate).toLocaleDateString() %></td>
+                            <td><%= booking.paymentStatus %></td>
+                            <td class="actions">
+                                <a href="/admin/bookings/edit/<%= booking._id %>" class="edit">Edit</a>
+                                <a href="/admin/bookings/delete/<%= booking._id %>" class="delete" onclick="return confirm('Are you sure you want to delete this booking?')">Delete</a>
+                                <a href="/admin/bookings/details/<%= booking._id %>" class="view-details">View Details</a>
+                            </td>
+                        </tr>
+                    <% }) %> 
+                </tbody>
+            </table>
+        <% } %>
+    </div>
+
+    <script>
+        const searchInput = document.getElementById('searchInput');
+        const bookingContainer = document.getElementById('bookingContainer');
+        const bookingRows = document.querySelectorAll('tr[data-user-name]');
+
+        searchInput.addEventListener('input', () => {
+            const query = searchInput.value.toLowerCase();
+
+            bookingRows.forEach(row => {
+                const userName = row.dataset.userName;
+                const userContact = row.dataset.userContact;
+                const paymentStatus = row.dataset.paymentStatus;
+
+                if (
+                    userName.includes(query) ||
+                    userContact.includes(query) ||
+                    paymentStatus.includes(query)
+                ) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

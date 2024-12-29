@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+   
+    <style>
+        /* Global Styles */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background: linear-gradient(135deg, #ff7eb3 0%, #ff758c 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    color: #333;
+    padding: 20px;
+}
+
+/* Form Container */
+.form-container {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 40px 30px;
+    border-radius: 20px;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 100%;
+    max-width: 400px;
+    animation: fadeIn 1s ease-in-out;
+}
+
+/* Form Title */
+.form-container h2 {
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 30px;
+    font-size: 28px;
+}
+
+/* Form Groups */
+.form-group {
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.form-group label {
+    font-size: 14px;
+    margin-bottom: 8px;
+    display: block;
+    font-weight: 500;
+    color: #555;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 14px 20px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 30px;
+    outline: none;
+    transition: 0.3s;
+    background: #f9f9f9;
+    padding-left: 40px;
+}
+
+.form-group input:focus {
+    border-color: #ff7eb3;
+    box-shadow: 0 0 8px rgba(255, 126, 179, 0.3);
+    background: #fff;
+}
+
+/* Form Icons */
+.form-group i {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #aaa;
+    font-size: 18px;
+}
+
+/* Submit Button */
+.submit-btn {
+    background: linear-gradient(135deg, #ff758c 0%, #ff7eb3 100%);
+    color: #fff;
+    border: none;
+    padding: 14px 20px;
+    border-radius: 30px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+    width: 100%;
+    text-transform: uppercase;
+}
+
+.submit-btn:hover {
+    background: linear-gradient(135deg, #ff7eb3 0%, #ff758c 100%);
+    box-shadow: 0 8px 15px rgba(255, 126, 179, 0.3);
+}
+
+/* Message Box */
+.message {
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.message.success {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.message.error {
+    background-color: #f44336;
+    color: white;
+}
+
+/* FadeIn Animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 600px) {
+    .form-container {
+        padding: 30px 20px;
+    }
+    .form-container h2 {
+        font-size: 24px;
+    }
+    .form-group input {
+        font-size: 14px;
+    }
+}
+
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h2>Signup</h2>
+        <% if (message) { %>
+            <div class="message <%= messageType %>"><%= message %></div>
+        <% } %>
+        <form action="/signup" method="post">
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" id="name" name="username" placeholder="Enter your name" required autocomplete="off">
+                <i class="fas fa-user"></i>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Enter your password" required minlength="8" >
+                <i class="fas fa-lock"></i>
+            </div>
+            <div class="form-group">
+                <label for="email">Email </label>
+                <input type="email" id="email" name="email" placeholder="Enter your email address" required autocomplete="off">
+                <i class="fas fa-envelope"></i>
+            </div>
+            <button type="submit" class="submit-btn">Signup</button>
+        </form>
+    </div>
+</body>
+</html>

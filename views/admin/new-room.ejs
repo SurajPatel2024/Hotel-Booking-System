@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add New Room</title>
+    <link rel="stylesheet" href="/styles.css"> <!-- External CSS File -->
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Body Styling */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        /* Form Container Styling */
+        .form-container {
+            width: 60%;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        /* Form Group Styling */
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            font-weight: bold;
+            color: #555;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            font-size: 16px;
+        }
+
+        textarea {
+            resize: vertical;
+        }
+
+        /* Input Focus and Hover Effects */
+        input:focus, select:focus, textarea:focus {
+            border-color: #007BFF;
+            outline: none;
+        }
+
+        input:hover, select:hover, textarea:hover {
+            border-color: #007BFF;
+        }
+
+        /* Submit Button */
+        .submit-btn {
+            display: inline-block;
+            width: 100%;
+            padding: 12px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .submit-btn:hover {
+            background-color: #218838;
+        }
+
+        /* Responsiveness */
+        @media (max-width: 768px) {
+            .form-container {
+                width: 90%;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h1>Add New Room</h1>
+        <form action="/admin/rooms/new" method="POST" enctype="multipart/form-data">
+            <!-- Room Number -->
+            <div class="form-group">
+                <label for="roomNumber">Room Number:</label>
+                <input type="number" name="roomNumber" id="roomNumber" required>
+            </div>
+
+            <!-- Room Type -->
+            <div class="form-group">
+                <label for="type">Room Type:</label>
+                <select name="type" id="type" required onchange="generateDescription()">
+                    <option value="Single">Single</option>
+                    <option value="Double">Double</option>
+                    <option value="Suite">Suite</option>
+                    <option value="Penthouse">Penthouse</option>
+                    <option value="Dormitory">Dormitory</option>
+                </select>
+            </div>
+
+            <!-- Price -->
+            <div class="form-group">
+                <label for="price">Price:</label>
+                <input type="number" name="price" id="price" required>
+            </div>
+
+            <!-- Room Status -->
+            <div class="form-group">
+                <label for="status">Status:</label>
+                <select name="status" id="status" required>
+                    <option value="Available">Available</option>
+                    <option value="Booked">Booked</option>
+                    <option value="Under Maintenance">Under Maintenance</option>
+                </select>
+            </div>
+
+            <!-- Room Description -->
+            <div class="form-group">
+                <label for="description">Description:</label>
+                <textarea name="description" id="description" rows="4" placeholder="Enter a brief description of the room..." required></textarea>
+            </div>
+
+            <!-- Room Image -->
+            <div class="form-group">
+                <label for="image">Room Image:</label>
+                <input type="file" name="image" id="image" accept="image/*" required>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="submit-btn">Add Room</button>
+        </form>
+    </div>
+
+    <script>
+        function generateDescription() {
+            const roomType = document.getElementById('type').value;
+            const descriptionField = document.getElementById('description');
+
+            let description = '';
+            const commonFeatures = 'Includes free 📶🛜 Wi-Fi, ❄️ air conditioning, and access to all hotel amenities.';
+
+            switch (roomType) {
+                case 'Single':
+                    description = 'A comfortable single room perfect for solo travelers. ' + commonFeatures;
+                    break;
+                case 'Double':
+                    description = 'A spacious double room with two beds, ideal for couples or friends. ' + commonFeatures;
+                    break;
+                case 'Suite':
+                    description = 'A luxurious suite with a king-size bed, perfect for a premium experience. Includes a sitting area, ' +
+                                  'luxury toiletries, and a beautiful view of the city. ' + commonFeatures;
+                    break;
+                case 'Penthouse':
+                    description = 'An extravagant penthouse with a stunning view and premium amenities including a private balcony, ' +
+                                  'jacuzzi, and personalized service. ' + commonFeatures;
+                    break;
+                case 'Dormitory':
+                    description = 'A shared dormitory room with multiple beds, ideal for budget-conscious travelers. Includes ' +
+                                  'shared bathroom facilities and access to common areas. ' + commonFeatures;
+                    break;
+                default:
+                    description = 'Enter a description for the room.';
+            }
+
+            descriptionField.value = description;
+        }
+
+        // Call function to initialize description field based on the default selection
+        window.onload = generateDescription;
+    </script>
+</body>
+</html>

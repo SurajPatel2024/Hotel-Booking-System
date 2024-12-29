@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Booking</title>
+</head>
+<style>
+    /* Reset some default styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+    padding: 20px;
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+form {
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+p {
+    margin-bottom: 15px;
+}
+
+strong {
+    font-weight: bold;
+    display: inline-block;
+    width: 120px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="date"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="date"]:focus {
+    border-color: #007BFF;
+    outline: none;
+}
+
+button[type="submit"] {
+    width: 100%;
+    padding: 12px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+a {
+    display: block;
+    text-align: center;
+    margin-top: 20px;
+    color: #007BFF;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+</style>
+<body>
+    <h1>Edit Booking Details</h1>
+
+    <form action="/admin/bookings/edit/<%= booking._id %>" method="POST">
+        <p><strong>Room Number:</strong>
+            <input type="text" name="roomNumber" value="<%= booking.room?.roomNumber || 'N/A' %>" required />
+        </p>
+        <p><strong>User Name:</strong>
+            <input type="text" name="userName" value="<%= booking.userName %>" required />
+        </p>
+        <p><strong>User Email:</strong>
+            <input type="email" name="email" value="<%= booking.email %>" required />
+        </p>
+        <p><strong>Contact:</strong>
+            <input type="text" name="userContact" value="<%= booking.userContact %>" required />
+        </p>
+        <p><strong>Start Date:</strong>
+            <input type="date" name="startDate" value="<%= new Date(booking.startDate).toISOString().split('T')[0] %>" required />
+        </p>
+        <p><strong>End Date:</strong>
+            <input type="date" name="endDate" value="<%= new Date(booking.endDate).toISOString().split('T')[0] %>" required />
+        </p>
+        
+        <!-- Payment Status is now editable -->
+        <p><strong>Payment Status:</strong>
+            <% if (booking.paymentStatus === 'Cash Pending') { %>
+                <input type="text" name="paymentStatus" value="<%= booking.paymentStatus %>" required />
+            <% } else { %>
+                <input type="text" name="paymentStatus" value="<%= booking.paymentStatus %>" readonly />
+            <% } %>
+        </p>
+        
+        
+        
+        
+      
+        
+        <button type="submit">Update Booking</button>
+    </form>
+    
+    <br>
+    <a href="/view-bookings">Back to Booking List</a>
+</body>
+</html>

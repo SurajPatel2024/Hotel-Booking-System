@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .details {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .details p {
+            font-size: 16px;
+            margin: 10px 0;
+        }
+        .back-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            font-size: 16px;
+            border-radius: 4px;
+            text-decoration: none;
+            margin: 20px 0;
+        }
+        .back-btn:hover {
+            background-color: #1e6420;
+        }
+    </style>
+</head>
+<body>
+    <!-- Back Button -->
+    <a href="/view-bookings" class="back-btn">Back to Bookings</a>
+
+    <div class="details">
+        <h1>Booking Details</h1>
+        <p><strong>Booking ID:</strong> <%= booking._id %></p>
+        <p><strong>Room Number:</strong> <%= booking.room.roomNumber %></p>
+        <p><strong>User Name:</strong> <%= booking.userName %></p>
+        <p><strong>User Email:</strong> <%= booking.email %></p>
+        <p><strong>Contact:</strong> <%= booking.userContact %></p>
+        <p><strong>Start Date:</strong> <%= new Date(booking.startDate).toLocaleDateString() %></p>
+        <p><strong>End Date:</strong> <%= new Date(booking.endDate).toLocaleDateString() %></p>
+        <p><strong>Payment Status:</strong> <%= booking.paymentStatus %></p>
+        <!-- You can add more details as necessary -->
+    </div>
+
+</body>
+</html>
