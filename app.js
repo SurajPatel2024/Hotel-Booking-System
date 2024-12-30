@@ -587,50 +587,64 @@ const session = require('express-session');
 const MongoStore = require('connect-mongo');
 const svgCaptcha = require('svg-captcha');
 
+const cors = require('cors');
+
+app.use(cors({
+  origin: 'https://your-frontend-domain.com', // Replace with your frontend domain
+  credentials: true, // Allow cookies to be sent with requests
+}));
+
 app.use(session({
-  secret: process.env.SESSION_SECRET || 'your-secret-key', // Use a strong secret key in production
+  secret: process.env.SESSION_SECRET || 'your-secret-key',
   resave: false,
-  saveUninitialized: true,
+  saveUninitialized: false,
   store: MongoStore.create({
-    mongoUrl: process.env.DATABASE_URL, // MongoDB URI for storing sessions
-    ttl: 14 * 24 * 60 * 60 // Session TTL (14 days)
+    mongoUrl: process.env.DATABASE_URL,
+    ttl: 14 * 24 * 60 * 60, // 14 days
   }),
   cookie: {
-    secure: process.env.NODE_ENV === 'production', // Only set to true in production with HTTPS
-    httpOnly: true, // Prevent client-side JavaScript access to cookies
-    maxAge: 14 * 24 * 60 * 60 * 1000 // Set cookie expiration (in ms)
-  }
+    maxAge: 14 * 24 * 60 * 60 * 1000, // 14 days in milliseconds
+    secure: process.env.NODE_ENV === 'production', // Secure only in production
+    httpOnly: true, // Prevent client-side JS access
+    sameSite: 'lax', // Allow cookies across subdomains but prevent CSRF
+  },
 }));
+
 
  
 
 // Generate a numeric CAPTCHA
 app.get('/captcha', (req, res) => {
   const captcha = svgCaptcha.create({
-    size: 5, // Number of digits in the CAPTCHA
-    ignoreChars: 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', // Exclude letters
-    noise: 2, // Minimal noise lines
-    color: true, // Colorful characters
-    background: '#f8f9fa', // Background color
+    size: 5,
+    ignoreChars: 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ',
+    noise: 2,
+    color: true,
+    background: '#f8f9fa',
   });
 
-  req.session.captcha = captcha.text; // Save CAPTCHA text in session
-  res.type('svg');
-  res.send(captcha.data); // Send CAPTCHA SVG
+  req.session.captcha = captcha.text; // Save CAPTCHA in session
+  res.type('svg').send(captcha.data);
 });
+
 
  
 // Example CAPTCHA validation endpoint
 app.post('/verify-captcha', (req, res) => {
-    const userCaptcha = req.body.captcha; // Get the user's CAPTCHA input
-    if (userCaptcha === req.session.captcha) {
-        // CAPTCHA is correct
-        res.json({ success: true });
-    } else {
-        // CAPTCHA is incorrect
-        res.json({ success: false });
-    }
+  const userCaptcha = req.body.captcha;
+
+  if (!req.session.captcha) {
+    return res.status(400).json({ success: false, message: "Session expired. Please reload the CAPTCHA." });
+  }
+
+  if (userCaptcha === req.session.captcha) {
+    req.session.captcha = null; // Clear CAPTCHA on success
+    return res.json({ success: true });
+  } else {
+    return res.status(400).json({ success: false, message: "Invalid CAPTCHA. Try again." });
+  }
 });
+
   
 
 // PayPal payment route with CAPTCHA validation
@@ -639,17 +653,9 @@ app.post('/book-room/:roomId', auth, async (req, res) => {
   const { userName, email, userContact, startDate, endDate, paymentMethod, captcha } = req.body;
 
   try {
-    
+    if (!req.session.captcha || captcha !== req.session.captcha) {
+      req.session.captcha = null; // Clear invalid CAPTCHA
 
-    // Retrieve CAPTCHA from session
-    const sessionCaptcha = req.session.captcha;
-
-    // Check if the CAPTCHA matches
-    if (!sessionCaptcha || captcha !== sessionCaptcha) {
-      // Clear CAPTCHA after use
-      req.session.captcha = null;
-
-      // Fetch room and user for re-rendering
       const room = await Room.findById(roomId);
       const user = await User.findById(req.userId);
 
@@ -657,39 +663,29 @@ app.post('/book-room/:roomId', auth, async (req, res) => {
         return res.status(404).send("Room not found");
       }
 
-      // Render the form again with an error message
-      return res.render('book-room', { 
-        room, 
-        user: { 
-          username: user.username,
-          email: user.email 
-        },
+      return res.render('book-room', {
+        room,
+        user: { username: user.username, email: user.email },
         message: "Invalid CAPTCHA. Please try again.",
         messageType: "error",
       });
     }
 
-    // Clear CAPTCHA after successful validation
-    req.session.captcha = null;
+    req.session.captcha = null; // Clear CAPTCHA after successful validation
 
-    // Find the room by ID
     const room = await Room.findById(roomId);
     if (!room) {
       return res.status(404).send("Room not found");
     }
 
-    // Update the room's status based on payment method
-    room.status = 'Booked'; // Room is booked regardless of payment method
-
-    // Save the room with updated status
+    room.status = 'Booked';
     await room.save();
 
-    // Create the booking details in the database
     const booking = new Booking({
       room: roomId,
       userName,
       email,
-      userContact, 
+      userContact,
       startDate,
       endDate,
       paymentStatus: paymentMethod === 'Online' ? 'Online Paid' : 'Cash Pending',
@@ -698,7 +694,6 @@ app.post('/book-room/:roomId', auth, async (req, res) => {
 
     await booking.save();
 
-    // Redirect to a thank-you page or display a success message
     res.redirect(`/thank-you/${booking._id}`);
   } catch (err) {
     console.error('Error booking room:', err);
