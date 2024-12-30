@@ -224,6 +224,19 @@
     transition: color 0.3s;
 }
 
+
+@media screen and (max-width: 768px) {
+    #captchaImage {
+        max-width: 100%; /* Ensure image resizes properly */
+        height: auto;    /* Maintain aspect ratio */
+    }
+
+    #captcha, #verify-captcha, #reload-captcha {
+        width: 100%; /* Full-width input and buttons */
+        margin-bottom: 10px; /* Add spacing */
+    }
+}
+
     </style>
 
     <!-- Include PayPal SDK -->
@@ -543,6 +556,65 @@ function displayPaymentAlert(message, type) {
     });
 </script>
 
+
+<script>
+    function verifyCaptcha() {
+    const captchaInput = document.getElementById('captcha').value;
+    fetch('/verify-captcha', {
+        method: 'POST',
+        body: JSON.stringify({ captcha: captchaInput }),
+        headers: { 'Content-Type': 'application/json' },
+    })
+    .then(response => response.json())
+    .then(data => {
+        const alertBox = document.getElementById('captcha-alert');
+        const alertMessage = alertBox.querySelector('.message');
+
+        if (data.success) {
+            captchaVerified = true;
+            alertBox.className = 'captcha-alert success';
+            alertMessage.textContent = "CAPTCHA Verified Successfully!";
+            alertBox.style.display = 'flex';
+
+            // Hide unnecessary CAPTCHA fields
+            document.getElementById('captcha').style.display = 'none';
+            document.getElementById('verify-captcha').style.display = 'none';
+            document.getElementById('captchaImage').style.display = 'none';
+            document.querySelector("button[onclick='reloadCaptcha()']").style.display = 'none';
+
+            // Show payment method dropdown
+            document.getElementById('paymentMethodContainer').style.display = 'block';
+        } else {
+            alertBox.className = 'captcha-alert error';
+            alertMessage.textContent = "CAPTCHA Verification Failed. Please try again.";
+            alertBox.style.display = 'flex';
+        }
+    })
+    .catch(error => {
+        console.error('Error verifying CAPTCHA:', error);
+        alert("An error occurred while verifying CAPTCHA. Please try again.");
+    });
+}
+
+
+function reloadCaptcha() {
+    const captchaImage = document.getElementById('captchaImage');
+    captchaImage.src = '/captcha?' + Date.now(); // Ensure fresh CAPTCHA image
+    captchaVerified = false;
+
+    // Reset CAPTCHA input
+    document.getElementById('captcha').value = '';
+
+    // Hide payment options and book button
+    document.getElementById('paymentMethodContainer').style.display = 'none';
+    document.getElementById('book-button').style.display = 'none';
+}
+
+
+document.getElementById('verify-captcha').addEventListener('click', verifyCaptcha);
+document.getElementById('reload-captcha').addEventListener('click', reloadCaptcha);
+
+</script>
 
 </body>
 </html>
