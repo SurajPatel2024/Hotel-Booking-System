@@ -588,49 +588,47 @@ const MongoStore = require('connect-mongo');
 const svgCaptcha = require('svg-captcha');
 
 app.use(session({
-  secret: process.env.SESSION_SECRET || 'your-secret-key', // Use a strong secret key in production
+  secret: process.env.SESSION_SECRET || 'your-secret-key',
   resave: false,
   saveUninitialized: true,
   store: MongoStore.create({
-    mongoUrl: process.env.DATABASE_URL, // MongoDB URI for storing sessions
-    ttl: 14 * 24 * 60 * 60 // Session TTL (14 days)
+    mongoUrl: process.env.DATABASE_URL,
+    ttl: 14 * 24 * 60 * 60, // 14 days
   }),
   cookie: {
-    secure: process.env.NODE_ENV === 'production', // Only set to true in production with HTTPS
-    httpOnly: true, // Prevent client-side JavaScript access to cookies
-    maxAge: 14 * 24 * 60 * 60 * 1000 // Set cookie expiration (in ms)
+    secure: process.env.NODE_ENV === 'production', // Only for HTTPS
+    httpOnly: true,
+    maxAge: 14 * 24 * 60 * 60 * 1000, // 14 days in milliseconds
+    sameSite: 'lax', // Ensures cookies are sent only on same-site requests
   }
 }));
 
+app.use(session({
+  secret: process.env.SESSION_SECRET || 'your-secret-key',
+  resave: false,
+  saveUninitialized: true,
+}));
  
 
 // Generate a numeric CAPTCHA
 app.get('/captcha', (req, res) => {
-  const captcha = svgCaptcha.create({
-    size: 5, // Number of digits in the CAPTCHA
-    ignoreChars: 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', // Exclude letters
-    noise: 2, // Minimal noise lines
-    color: true, // Colorful characters
-    background: '#f8f9fa', // Background color
-  });
-
-  req.session.captcha = captcha.text; // Save CAPTCHA text in session
+  const captcha = svgCaptcha.create();
+  req.session.captcha = captcha.text; // Store the CAPTCHA text in the session
   res.type('svg');
-  res.send(captcha.data); // Send CAPTCHA SVG
+  res.status(200).send(captcha.data); // Send the CAPTCHA SVG data
 });
 
  
-// Example CAPTCHA validation endpoint
 app.post('/verify-captcha', (req, res) => {
-    const userCaptcha = req.body.captcha; // Get the user's CAPTCHA input
-    if (userCaptcha === req.session.captcha) {
-        // CAPTCHA is correct
-        res.json({ success: true });
-    } else {
-        // CAPTCHA is incorrect
-        res.json({ success: false });
-    }
+  const userInputCaptcha = req.body.captcha;
+  if (userInputCaptcha === req.session.captcha) {
+      req.session.captcha = null; // Clear the CAPTCHA after verification
+      return res.json({ success: true });
+  }
+  res.json({ success: false });
 });
+
+
   
 
 // PayPal payment route with CAPTCHA validation
