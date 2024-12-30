@@ -512,7 +512,37 @@ function displayPaymentAlert(message, type) {
 
 </script>
 
- 
+<script>
+    // Set min attribute for start and end date fields
+    document.addEventListener("DOMContentLoaded", function () {
+        const today = new Date().toISOString().split("T")[0]; // Get today's date in YYYY-MM-DD format
+        document.getElementById("startDate").setAttribute("min", today);
+        document.getElementById("endDate").setAttribute("min", today);
+    });
+
+    // Validate mobile number as a valid Indian number
+    document.getElementById("booking-form").addEventListener("submit", function (e) {
+        const userContact = document.getElementById("userContact").value;
+        const mobileRegex = /^[789]\d{9}$/;
+
+        if (!mobileRegex.test(userContact)) {
+            e.preventDefault(); // Prevent form submission
+            alert("Please enter a valid 10-digit Indian mobile number starting with 7, 8, or 9.");
+            return false;
+        }
+
+        // Additional validations for start and end date
+        const startDate = new Date(document.getElementById("startDate").value);
+        const endDate = new Date(document.getElementById("endDate").value);
+
+        if (endDate < startDate) {
+            e.preventDefault(); // Prevent form submission
+            alert("End Date cannot be earlier than Start Date.");
+            return false;
+        }
+    });
+</script>
+
 
 </body>
 </html>
