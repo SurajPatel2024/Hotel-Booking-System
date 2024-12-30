@@ -4,267 +4,515 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Book Room - Taj Hotel</title>
-     <style>
+    <style>
         /* General Body Styling */
-body {
-    font-family: 'Arial', sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f8f9fa;
-}
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+        }
 
-/* Header Styling */
-header {
-    background-color: #343a40;
-    color: white;
-    padding: 15px;
-    text-align: center;
+        /* Header Styling */
+        header {
+            background-color: #343a40;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Container Styling */
+        .container {
+            max-width: 600px;
+            margin: 30px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Headings Styling */
+        h1, h2, h3 {
+            color: #343a40;
+            margin: 10px 0;
+            font-family: 'Arial', sans-serif;
+            font-weight: bold;
+        }
+
+        /* Label Styling */
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #495057;
+        }
+
+        /* Input & Select Styling */
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 14px;
+            color: #495057;
+        }
+
+        input:focus, select:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+
+        input:read-only {
+            background-color: #e9ecef;
+            color: #6c757d;
+        }
+
+        /* Button Styling */
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            margin: 10px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        /* PayPal Button Container */
+        #paypal-button-container {
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        /* Error Message Styling */
+        .error {
+            color: red;
+            font-weight: bold;
+        }
+
+        /* Captcha Styling */
+        #captchaImage {
+            display: block;
+            margin-bottom: 10px;
+            border: 1px solid #ced4da;
+            width: 100%;
+            max-width: 200px;
+            height: auto;
+            border-radius: 4px;
+        }
+
+        /* Responsive Design */
+        @media screen and (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+
+            header {
+                font-size: 18px;
+                padding: 10px;
+            }
+
+            button {
+                font-size: 12px;
+                padding: 8px 12px;
+            }
+
+            input, select {
+                font-size: 12px;
+            }
+        }
+
+    /* Improved Alert Styling for CAPTCHA */
+.captcha-alert {
+    background-color: #d1ecf1; /* Light blue background for info */
+    border: 1px solid #bee5eb; /* Border for the alert */
+    color: #0c5460; /* Text color */
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 5px;
+    width: 100%;
+    height: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-/* Container Styling */
-.container {
-    max-width: 600px;
-    margin: 30px auto;
-    padding: 20px;
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+.captcha-alert.success {
+    background-color: #d4edda; /* Light green background for success */
+    border-color: #c3e6cb; /* Green border */
+    color: #155724; /* Dark green text */
 }
 
-/* Headings Styling */
-h1, h2, h3 {
-    color: #343a40;
-    margin: 10px 0;
-    font-family: 'Arial', sans-serif;
+.captcha-alert.error {
+    background-color: #f8d7da; /* Light red background for error */
+    border-color: #f5c6cb; /* Red border */
+    color: #ff0019; /* Dark red text */
+}
+
+ 
+
+.captcha-alert .close-btn {
+    font-size: 20px;
     font-weight: bold;
-}
-
-/* Label Styling */
-label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: bold;
-    color: #495057;
-}
-
-/* Input & Select Styling */
-input, select {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 15px;
-    border: 1px solid #ced4da;
-    border-radius: 4px;
-    box-sizing: border-box;
-    font-size: 14px;
-    color: #495057;
-}
-
-input:focus, select:focus {
-    border-color: #007bff;
-    outline: none;
-}
-
-input:read-only {
-    background-color: #e9ecef;
-    color: #6c757d;
-}
-
-/* Button Styling */
-button {
-    background-color: #007bff;
-    color: white;
+    color: inherit;
+    background: none;
     border: none;
-    padding: 10px 15px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 14px;
-    margin: 10px;
-}
-
-button:hover {
-    background-color: #0056b3;
-}
-
-/* Dropdown Styling */
-.dropdown select {
-    appearance: none;
-    background-color: #f8f9fa;
-    padding: 10px;
-    font-size: 14px;
-    border: 1px solid #ced4da;
-    border-radius: 4px;
     cursor: pointer;
 }
 
-/* PayPal Button Container */
-#paypal-button-container {
-    text-align: center;
-    margin-top: 15px;
-}
 
-/* Paragraphs */
-p {
-    margin: 10px 0;
-    color: #495057;
-    font-size: 14px;
-}
 
-/* Error Message Styling */
-.error {
-    color: red;
+
+/* Payment Alert Styling */
+.payment-alert {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px;
+    margin-top: 20px;
+    border-radius: 8px;
+    font-size: 16px;
     font-weight: bold;
-}
-
-/* Captcha Styling */
-#captchaImage {
-    display: block;
-    margin-bottom: 10px;
-    border: 1px solid #ced4da;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     width: 100%;
-    max-width: 200px;
-    height: auto;
-    border-radius: 4px;
+    color: #ffffff;
 }
 
-/* Responsive Design */
-@media screen and (max-width: 768px) {
-    .container {
-        padding: 15px;
-    }
-
-    header {
-        font-size: 18px;
-        padding: 10px;
-    }
-
-    button {
-        font-size: 12px;
-        padding: 8px 12px;
-    
-    }
-
-    input, select {
-        font-size: 12px;
-    }
+.payment-alert.success {
+    background-color: #28a745; /* Green background for success */
+    border: 1px solid #218838; /* Green border */
 }
 
-     </style>
+.payment-alert.error {
+    background-color: #dc3545; /* Red background for error */
+    border: 1px solid #c82333; /* Red border */
+}
+
+.payment-alert.info {
+    background-color: #17a2b8; /* Blue background for informational messages */
+    border: 1px solid #138496; /* Blue border */
+}
+
+.payment-alert .alert-message {
+    flex-grow: 1;
+    margin-right: 10px;
+}
+
+.payment-alert .close-btn {
+    background: none;
+    border: none;
+    font-size: 18px;
+    color: #ffffff;
+    cursor: pointer;
+    font-weight: bold;
+    padding: 0;
+}
+
+.payment-alert .close-btn:hover {
+    color: #d4d4d4;
+    transition: color 0.3s;
+}
+
+    </style>
 
     <!-- Include PayPal SDK -->
     <script src="https://www.paypal.com/sdk/js?client-id=<%= process.env.PAYPAL_CLIENT_ID %>&currency=USD"></script>
 
 </head>
 <body>
-
- 
-
+    
+    
 <div class="container">
     <h2>Room Details</h2>
     <p><strong>Room Number:</strong> <%= room.roomNumber %></p>
     <p><strong>Type:</strong> <%= room.type %></p>
     <p><strong>Price:</strong> Rs. <%= room.price %></p>
     <p><strong>Description:</strong> <%= room.description %></p>
- 
+
     <% if (room.status === 'Available') { %>
         <h3>Are you sure you want to book this room?</h3>
         <form action="/book-room/<%= room._id %>" method="POST" id="booking-form">
-            <label for="userName">Name:</label>
-            <input type="text" id="userName" name="userName" value="<%= user.username %>" readonly><br><br>
+            <!-- Existing form fields here... -->
+            <form action="/book-room/<%= room._id %>" method="POST" id="booking-form">
+                <label for="userName">Name:</label>
+                <input type="text" id="userName" name="userName" value="<%= user.username %>" readonly><br><br>
+    
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" value="<%= user.email %>" readonly><br><br>
+    
+                <label for="userContact">Contact:</label>
+                <input type="text" id="userContact" name="userContact" pattern="^[789]\d{9}$" title="Phone number must be a 10-digit Indian number starting with 7, 8, or 9" required><br><br>
+    
+                <label for="startDate">Start Date:</label>
+                <input type="date" id="startDate" name="startDate" required><br><br>
+    
+                <label for="endDate">End Date:</label>
+                <input type="date" id="endDate" name="endDate" required><br><br>
+    
 
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" value="<%= user.email %>" readonly><br><br>
 
-            <label for="userContact">Contact:</label>
-            <input type="text" id="userContact" name="userContact" pattern="^[789]\d{9}$" title="Phone number must be a 10-digit Indian number starting with 7, 8, or 9" required><br><br>
-
-            <label for="startDate">Start Date:</label>
-            <input type="date" id="startDate" name="startDate" required><br><br>
-
-            <label for="endDate">End Date:</label>
-            <input type="date" id="endDate" name="endDate" required><br><br>
-
-            <!-- Payment method form -->
-            <div class="dropdown">
+                <div id="payment-alert" class="payment-alert" style="display: none;">
+                    <span class="alert-message"></span>
+                    <button class="close-btn" onclick="this.parentElement.style.display='none'">&times;</button>
+                </div>
+                
+                
+           
+            <!-- Payment method form initially hidden -->
+            <div class="dropdown" id="paymentMethodContainer" style="display:none;">
                 <label for="paymentMethod">Payment Method:</label>
-                <select id="paymentMethod" name="paymentMethod" required onchange="togglePaymentMethod(this.value)">
+                <select id="paymentMethod" name="paymentMethod" required onchange="showPaymentOptions()">
                     <option value="" disabled selected>Select Payment Method</option>
                     <option value="Cash">Cash</option>
                     <option value="Online">Online</option>
                 </select>
             </div>
 
-            <!-- PayPal Button Container -->
+            <!-- PayPal Button Container (Hidden initially) -->
             <div id="paypal-button-container" style="display:none;"></div>
-            <label for="captcha">Enter the text shown below:</label>
+
+            <!-- Captcha and "Verify CAPTCHA" button -->
+            <div id="captcha-alert" class="captcha-alert" style="display: none;">
+           
+                <span class="message">Message goes here</span>
+                <button class="close-btn" onclick="this.parentElement.style.display='none'">&times;</button>
+            </div>
             <img id="captchaImage" src="/captcha" alt="CAPTCHA" style="display: block; margin-bottom: 10px; border: 1px solid #ced4da;">
             <input type="text" id="captcha" name="captcha" required>
+            <button type="button" id="verify-captcha" onclick="verifyCaptcha()">Verify CAPTCHA</button>
+
             <button type="button" onclick="reloadCaptcha()">Reload CAPTCHA</button>
             <button type="submit" id="book-button" style="display:none;">Book Now</button>
         </form>
     <% } else { %>
         <p>This room is already booked.</p>
     <% } %>
- 
+
 </div>
+
 <script>
+    let captchaVerified = false; // Flag to check if CAPTCHA is verified
+
     function reloadCaptcha() {
-    document.getElementById('captchaImage').src = '/captcha?' + Date.now(); // Force refresh by appending a timestamp
+        document.getElementById('captchaImage').src = '/captcha?' + Date.now(); // Force refresh by appending a timestamp
+        captchaVerified = false; // Reset CAPTCHA verification
+        document.getElementById('paymentMethodContainer').style.display = 'none'; // Hide payment method
+        document.getElementById('book-button').style.display = 'none'; // Hide "Book Now" button
+    }
+    function verifyCaptcha() {
+    const captchaInput = document.getElementById('captcha').value;
+    fetch('/verify-captcha', {
+        method: 'POST',
+        body: JSON.stringify({ captcha: captchaInput }),
+        headers: { 'Content-Type': 'application/json' },
+    })
+    .then(response => response.json())
+    .then(data => {
+        const alertBox = document.getElementById('captcha-alert');
+        const alertMessage = document.querySelector('#captcha-alert .message');
+        if (data.success) {
+            captchaVerified = true;
+            alertBox.className = 'captcha-alert success';
+            alertMessage.textContent = "CAPTCHA Verified Successfully!";
+            alertBox.style.display = 'flex';
+
+            // Hide CAPTCHA input, reload button, and verify button
+            document.getElementById('captcha').style.display = 'none';
+            document.getElementById('verify-captcha').style.display = 'none';
+            document.getElementById('captchaImage').style.display = 'none';
+            document.querySelector("button[onclick='reloadCaptcha()']").style.display = 'none';
+
+            // Show payment method dropdown
+            document.getElementById('paymentMethodContainer').style.display = 'block';
+
+            // Auto-hide the alert after 5 seconds
+            setTimeout(() => {
+                alertBox.style.display = 'none';
+            }, 5000);
+        } else {
+            alertBox.className = 'captcha-alert error';
+            alertMessage.textContent = "CAPTCHA Verification Failed. Please try again.";
+            alertBox.style.display = 'flex';
+
+            // Auto-hide the alert after 5 seconds
+            setTimeout(() => {
+                alertBox.style.display = 'none';
+            }, 5000);
+        }
+    });
 }
 
-</script>
-<script>
-    // Prevent selecting past or current dates
-    const today = new Date().toISOString().split('T')[0];
-    document.getElementById('startDate').setAttribute('min', today);
-    document.getElementById('endDate').setAttribute('min', today);
+function showPaymentOptions() {
+    const paymentMethod = document.getElementById('paymentMethod').value;
+    const paymentMethodContainer = document.getElementById('paymentMethodContainer');
+    const paypalContainer = document.getElementById('paypal-button-container');
+    const bookButton = document.getElementById('book-button');
 
-    let paypalInitialized = false; // Ensure PayPal button is initialized only once
-
-    function togglePaymentMethod(method) {
-        const paypalButtonContainer = document.getElementById('paypal-button-container');
-        const bookButton = document.getElementById('book-button');
-
-        if (method === 'Online') {
-            paypalButtonContainer.style.display = 'block';  // Show PayPal button
-            bookButton.style.display = 'none';  // Hide default 'Book Now' button
-
-            if (!paypalInitialized) {
-                paypalInitialized = true; // Mark as initialized
-
-                paypal.Buttons({
-                    createOrder: function(data, actions) {
-                        return actions.order.create({
-                            purchase_units: [{
-                                amount: {
-                                    currency_code: 'USD',
-                                    value: "<%= room.price %>", // Ensure this value is a number
-                                },
-                            }],
-                        }).then(function(orderID) {
-                            return orderID;
-                        });
-                    },
-                    onApprove: function(data, actions) {
-                        return actions.order.capture().then(function(details) {
-                            // After payment is successful, show the "Book Now" button
-                            document.getElementById('book-button').style.display = 'block';
-                            document.getElementById('paypal-button-container').style.display = 'none'; // Hide PayPal button
-
-                            console.log('Payment captured:', details);
-                        });
-                    },
-                    onCancel: function(data) {
-                        alert('Payment was canceled');
-                    },
-                }).render('#paypal-button-container');
-            }
-        } else {
-            paypalButtonContainer.style.display = 'none';  // Hide PayPal button
-            bookButton.style.display = 'block'; // Show default 'Book Now' button
-        }
+    if (paymentMethod === 'Online') {
+        showPayPalButton(); // Show PayPal button if "Online" is selected
+    } else {
+        paypalContainer.style.display = 'none'; // Hide PayPal if not "Online"
+        bookButton.style.display = 'block'; // Show "Book Now" button for Cash
     }
+
+    // Disable further changes to the payment method
+    paymentMethodContainer.querySelector('select').disabled = true;
+
+    // Optional: Display a message that the payment method cannot be changed
+    displayPaymentAlert('Payment method selected: ' + paymentMethod, 'info');
+}
+
+function showPayPalButton() {
+    const roomPrice = `<%= room.price %>`; // Set room price dynamically from backend
+    const paypalContainer = document.getElementById('paypal-button-container');
+
+    // Clear previous PayPal button if it exists
+    paypalContainer.innerHTML = '';
+
+    // Show PayPal button container
+    paypalContainer.style.display = 'block';
+
+    // Render PayPal button
+    paypal.Buttons({
+        createOrder: function (data, actions) {
+            return actions.order.create({
+                purchase_units: [{
+                    amount: {
+                        value: roomPrice // Replace with dynamic value from backend
+                    }
+                }]
+            });
+        },
+        onApprove: function (data, actions) {
+            return actions.order.capture().then(function (details) {
+                // Hide PayPal button after successful payment
+                paypalContainer.style.display = 'none';
+
+                // Show the "Book Now" button
+                document.getElementById('book-button').style.display = 'block';
+
+                // Display custom payment success alert
+                displayPaymentAlert(
+                    'Payment successful! Thank you, ' + details.payer.name.given_name,
+                    'success'
+                );
+
+                // Disable further changes to the payment method
+                document.getElementById('paymentMethod').disabled = true;
+            });
+        },
+        onCancel: function (data) {
+            displayPaymentAlert('Payment was cancelled.', 'info');
+        },
+        onError: function (err) {
+            console.error('Error in payment:', err);
+            displayPaymentAlert('An error occurred during the payment process.', 'error');
+        }
+    }).render('#paypal-button-container');
+}
+
+function displayPaymentAlert(message, type) {
+    const alertBox = document.getElementById('payment-alert');
+    const alertMessage = alertBox.querySelector('.alert-message');
+
+    // Set alert message and type
+    alertMessage.textContent = message;
+    alertBox.className = `payment-alert ${type}`; // Apply appropriate class for styling
+
+    // Display the alert box
+    alertBox.style.display = 'flex';
+
+    // Auto-hide after 5 seconds (optional)
+    setTimeout(() => {
+        alertBox.style.display = 'none';
+    }, 5000);
+}
+
+
+  
+
+ 
+
+    function showPayPalButton() {
+    const roomPrice = `<%= room.price %>`; // Set room price dynamically from backend
+    const paypalContainer = document.getElementById('paypal-button-container');
+
+    // Clear previous PayPal button if it exists
+    paypalContainer.innerHTML = ''; 
+
+    // Show PayPal button container
+    paypalContainer.style.display = 'block'; 
+
+    // Render PayPal button
+    paypal.Buttons({
+        createOrder: function(data, actions) {
+            return actions.order.create({
+                purchase_units: [{
+                    amount: {
+                        value: roomPrice // Replace with dynamic value from backend
+                    }
+                }]
+            });
+        },
+        onApprove: function(data, actions) {
+            return actions.order.capture().then(function(details) {
+                // Hide PayPal button after successful payment
+                document.getElementById('paypal-button-container').style.display = 'none';
+
+                // Show the "Book Now" button
+                document.getElementById('book-button').style.display = 'block';
+
+                // Display custom payment success alert
+                displayPaymentAlert(
+                    'Payment successful! Thank you, ' + details.payer.name.given_name, 
+                    'success'
+                );
+
+                // Optionally handle any form submission here
+            });
+        },
+        onCancel: function(data) {
+            displayPaymentAlert('Payment was cancelled.', 'info');
+        },
+        onError: function(err) {
+            console.error('Error in payment:', err);
+            displayPaymentAlert('An error occurred during the payment process.', 'error');
+        }
+    }).render('#paypal-button-container');
+}
+
+function displayPaymentAlert(message, type) {
+    const alertBox = document.getElementById('payment-alert');
+    const alertMessage = alertBox.querySelector('.alert-message');
+    
+    // Set alert message and type
+    alertMessage.textContent = message;
+    alertBox.className = `payment-alert ${type}`; // Apply appropriate class for styling
+    
+    // Display the alert box
+    alertBox.style.display = 'flex';
+
+    // Auto-hide after 5 seconds (optional)
+    setTimeout(() => {
+        alertBox.style.display = 'none';
+    }, 5000);
+}
+
+
 </script>
+
+ 
 
 </body>
 </html>

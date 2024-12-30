@@ -6,91 +6,147 @@
   <title>User Bookings</title>
 </head>
 <style>
+  /* General Styles */
   body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
-  background-color: #f4f4f9;
-  color: #333;
-  line-height: 1.6;
-}
-
-header {
-  background-color: #4CAF50;
-  color: white;
-  padding: 10px 20px;
-  text-align: center;
-}
-
-header h1 {
-  margin: 0;
-  font-size: 2rem;
-}
-
-header p {
-  margin: 5px 0;
-  font-size: 1rem;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+    color: #333;
+    line-height: 1.6;
+  }
+  
+  header {
+    background-color: #00796b; /* Premium green shade */
+    color: white;
+    padding: 15px 20px;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  header h1 {
+    margin: 0;
+    font-size: 1.8rem;
+  }
+  
+  header p {
+    margin: 5px 0;
+    font-size: 1rem;
+  }
+  
+/* Flexbox Center Alignment for h2 */
+.flex-container {
+  display: flex;
+  justify-content: center; /* Horizontally center the content */
+  align-items: center; /* Vertically center the content */
+  margin: 20px 0;
 }
 
 h2 {
-  text-align: center;
-  margin-top: 20px;
-  color: #4CAF50;
+  color: #00796b;
+  font-size: 1.5rem;
+  border-bottom: 2px solid #ddd;
+  padding-bottom: 5px;
+  margin: 0;
 }
 
-ul {
-  list-style: none;
-  padding: 0;
-  max-width: 800px;
-  margin: 20px auto;
-}
-
-ul li {
-  background-color: #fff;
-  border: 1px solid #ddd;
-  margin-bottom: 10px;
-  padding: 15px;
-  border-radius: 5px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-ul li p {
-  margin: 5px 0;
-}
-
-ul li p strong {
-  color: #333;
-}
-
-p.no-bookings {
-  text-align: center;
-  font-size: 1.2rem;
-  color: #777;
-}
-
-@media (max-width: 600px) {
-  header h1 {
-    font-size: 1.5rem;
+  
+  /* Grid Styling */
+  ul {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    list-style: none;
+    padding: 0;
+    max-width: 1000px;
+    margin: 20px auto;
   }
-
+  
   ul li {
-    padding: 10px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
   }
-
+  
+  ul li:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+  }
+  
   ul li p {
-    font-size: 0.9rem;
+    margin: 8px 0;
+    font-size: 1rem;
   }
+  
+  ul li p strong {
+    color: #00796b;
+  }
+  
+  /* No Bookings Message */
+  p.no-bookings {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #777;
+    margin-top: 20px;
+  }
+  
+
+  button.button {
+  background-color: #00796b; /* Button background color */
+  color: white; /* Text color */
+  padding: 10px 20px; /* Padding around the text */
+  border: none; /* Remove default border */
+  border-radius: 5px; /* Rounded corners */
+  font-size: 1rem; /* Font size */
+  cursor: pointer; /* Change cursor to pointer on hover */
+  margin: 20px; /* Add margin around the button */
+  transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transitions */
 }
 
-</style>
+button.button a {
+  text-decoration: none; /* Remove underline from link */
+  color: white; /* Match link text color with button */
+}
+
+button.button:hover {
+  background-color: #005a4f; /* Darker shade on hover */
+  transform: scale(1.05); /* Slightly enlarge on hover */
+}
+
+button.button:active {
+  transform: scale(1); /* Reset scale when clicked */
+}
+
+  /* Responsive Styling */
+  @media (max-width: 600px) {
+    header h1 {
+      font-size: 1.5rem;
+    }
+  
+    ul li {
+      padding: 15px;
+    }
+  
+    ul li p {
+      font-size: 0.9rem;
+    }
+  }
+  </style>
+  
 <body>
   <header>
     <h1>Welcome, <%= user.username %></h1>
     <p>Email: <%= user.email %></p>
     <p>User ID: <%= user._id %></p>
   </header>
-
-  <h2>Your Bookings</h2>
+  <button class="button"><a href="/UserHome">Back to Home</a></button>
+  <div class="flex-container">
+    <h2>Your Bookings</h2>
+  </div>
+  
   <ul>
     <% 
       let userBookings = bookings.filter(booking => booking.email === user.email); 
