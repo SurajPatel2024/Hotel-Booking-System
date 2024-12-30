@@ -635,11 +635,29 @@ app.post('/book-room/:roomId', async (req, res) => {
       // Retrieve CAPTCHA from session
       const sessionCaptcha = req.session.captcha;
 
-      if (sessionCaptcha !== captcha) {
+      // Check if the CAPTCHA matches
+      if (!sessionCaptcha || captcha != sessionCaptcha) {
           req.session.captcha = null; // Clear CAPTCHA after use
-          return res.render('book-room', { message: "Invalid CAPTCHA. Please try again." });
+
+          const room = await Room.findById(roomId);
+          const user = await User.findById(req.userId);
+
+          if (!room) {
+              return res.status(404).send("Room not found");
+          }
+
+          return res.render('book-room', {
+              room,
+              user: {
+                  username: user.username,
+                  email: user.email,
+              },
+              message: "Invalid CAPTCHA. Please try again.",
+              messageType: "error",
+          });
       }
 
+      // Clear CAPTCHA after successful validation
       req.session.captcha = null;
 
       // Continue with booking logic
