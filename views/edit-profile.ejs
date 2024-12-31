@@ -223,14 +223,10 @@ footer p {
             <h2 class="logo"> <i class="fas fa-crown"></i> Taj Hotel</h2>
             <ul class="nav-links">
                 <li><a href="/UserHome"><i class="fas fa-home" style="font-size: 1.1rem;"></i> Home</a></li>
-                
-            
                 <li class="user-dropdown" style="cursor: pointer;">
                     <i class="fas fa-user-circle" style="font-size: 1.1rem;"></i>
                     <span><%= user.username %></span>
-                     
                 </li>
-                
             </ul>
         </div>
     </nav>
@@ -241,15 +237,16 @@ footer p {
             <div class="form-group">
                 <label for="username">Username</label>
                 <input type="text" id="username" name="username" value="<%= user.username %>" required>
+                <small id="usernameError" style="color: red; display: none;">Username must only contain alphabets and no spaces.</small>
             </div>
             <div class="form-group">
                 <label for="email">Email</label>
                 <input type="email" id="email" name="email" value="<%= user.email %>" required>
+                <small id="emailError" style="color: red; display: none;">Please enter a valid email address.</small>
             </div>
             <button type="submit">Save Changes</button>
         </form>
     </div>
-
 
     <div id="alertBox" class="alert-container">
         <i class="fas fa-check-circle"></i> Changes saved successfully!
@@ -258,22 +255,55 @@ footer p {
         <p>&copy; 2024 Taj Hotel. All Rights Reserved.</p>
     </footer>
 
-   
-
     <script>
-        // JavaScript to handle form submission
         document.getElementById('editProfileForm').addEventListener('submit', function(event) {
-            event.preventDefault(); // Prevent the default form submission
-            const form = event.target;
+            event.preventDefault(); // Prevent form submission
 
-            // Show alert message
-            const alertBox = document.getElementById('alertBox');
-            alertBox.style.display = 'block';
+            const username = document.getElementById('username').value;
+            const email = document.getElementById('email').value;
+            const usernameError = document.getElementById('usernameError');
+            const emailError = document.getElementById('emailError');
+            let formValid = true;
 
-            // Simulate server processing delay
-            setTimeout(() => {
-                form.submit(); // Submit the form after showing the alert
-            }, 3000); // Wait for the alert animation to finish
+            // Reset error messages
+            usernameError.style.display = 'none';
+            emailError.style.display = 'none';
+
+            // Validate username (only alphabetic characters and no spaces)
+            if (!/^[A-Za-z]+$/.test(username)) {
+                usernameError.style.display = 'block';
+                formValid = false;
+            }
+
+            // Validate email (basic email pattern)
+            if (!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email)) {
+                emailError.style.display = 'block';
+                formValid = false;
+            }
+
+            // Simulate checking if the username or email already exists
+            const existingUsers = [
+                { username: 'existingUser', email: 'existing@example.com' }
+            ];
+
+            for (const user of existingUsers) {
+                if (user.username === username || user.email === email) {
+                    alert('Username or email already exists. Please choose another one.');
+                    formValid = false;
+                    break;
+                }
+            }
+
+            if (formValid) {
+                // Show success alert
+                const alertBox = document.getElementById('alertBox');
+                alertBox.style.display = 'block';
+
+                // Simulate server processing delay
+                setTimeout(() => {
+                    event.target.submit(); // Submit the form after showing the alert
+                }, 3000); // Wait for the alert animation to finish
+            }
         });
     </script>
 </body>

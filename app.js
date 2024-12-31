@@ -317,9 +317,9 @@ app.post('/edit-profile', auth, async (req, res) => {
       console.error(err);
       res.status(500).send('Error updating profile');
   }
-}); 
+});
 
- 
+
 
 
 
