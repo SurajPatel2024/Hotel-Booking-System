@@ -156,13 +156,13 @@ button.button:active {
     <% } else { %>
       <% userBookings.forEach(booking => { %>
         <li>
-          <p>Booking ID: <%= booking._id %></p>
-          <p>Room: <%= booking.room?.roomNumber || 'Room details unavailable' %></p>
+          <p><strong>Booking ID: </strong> <%= booking._id %></p>
+          <p><strong>Room: </strong><%= booking.room?.roomNumber || 'Room details unavailable' %></p>
           <p><strong>User Name:</strong> <%= booking.userName %></p>
           <p><strong>User Email:</strong> <%= booking.email %></p>
-          <p>Start Date: <%= new Date(booking.startDate).toDateString() %></p>
-          <p>End Date: <%= new Date(booking.endDate).toDateString() %></p>
-          <p>Payment Status: <%= booking.paymentStatus %></p>
+          <p><strong>Start Date:</strong> <%= new Date(booking.startDate).toDateString() %></p>
+          <p><strong>End Date: </strong><%= new Date(booking.endDate).toDateString() %></p>
+          <p><strong>Payment Status:</strong> <%= booking.paymentStatus %></p>
         </li>
       <% }); %>
     <% } %>

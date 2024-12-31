@@ -273,6 +273,58 @@ app.get('/UserHome', auth, async (req, res) => {
   }
 });
 
+
+app.get('/edit-profile', auth, async (req, res) => {
+  try {
+      // Retrieve user data using the ID from authentication middleware
+      const user = await User.findById(req.userId); // Assuming req.userId is set
+      if (!user) {
+          return res.status(404).send('User not found');
+      }
+
+      // Render the edit-profile page with user details
+      res.render('edit-profile', {
+          user, // Pass the fetched user to the template
+      });
+  } catch (err) {
+      console.error(err);
+      res.status(500).send('Server error');
+  }
+});
+app.post('/edit-profile', auth, async (req, res) => {
+  const { username, email } = req.body;
+
+  // Validate required fields
+  if (!username || !email) {
+      return res.status(400).send('Username and email are required');
+  }
+
+  try {
+      // Update the user details
+      const updatedUser = await User.findByIdAndUpdate(
+          req.userId, // Ensure this is set by auth middleware
+          { username, email }, // Fields to update
+          { new: true, runValidators: true } // Return updated user, validate fields
+      );
+
+      if (!updatedUser) {
+          return res.status(404).send('User not found');
+      }
+
+      // Redirect to the profile page after a successful update
+      res.redirect('/edit-profile');
+  } catch (err) {
+      console.error(err);
+      res.status(500).send('Error updating profile');
+  }
+}); 
+
+ 
+
+
+
+
+
 // Home Page
 app.get('/', async (req, res) => {
   try {

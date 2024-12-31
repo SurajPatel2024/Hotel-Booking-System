@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Profile</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+</head>
+<style>
+    /* style.css */
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f9;
+    color: #333;
+    line-height: 1.6;
+}
+
+/* Navigation bar */
+nav {
+    background-color: #004080;
+    color: #fff;
+    padding: 0.5rem 1rem;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+}
+
+.logo i {
+    margin-right: 0.5rem;
+    color: #ffcc00;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 1rem;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-links li {
+    display: inline;
+    font-size: 1rem;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: #fff;
+    font-size: 1rem;
+    transition: color 0.3s ease;
+}
+
+.nav-links a:hover {
+    color: #ffcc00;
+}
+
+.user-dropdown {
+    position: relative;
+    color: #fff;
+}
+
+.user-dropdown .dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 120%;
+    right: 0;
+    background-color: #fff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    overflow: hidden;
+    min-width: 200px;
+    z-index: 100;
+}
+
+.user-dropdown:hover .dropdown-menu {
+    display: block;
+}
+
+.dropdown-menu a {
+    display: block;
+    padding: 0.8rem 1rem;
+    color: #004080;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.dropdown-menu a:hover {
+    background-color: #f4f4f9;
+}
+
+/* Edit Profile Container */
+.edit-profile-container {
+    background-color: #fff;
+    margin: 2rem auto;
+    padding: 2rem;
+    max-width: 500px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.edit-profile-container h2 {
+    margin-bottom: 1rem;
+    color: #004080;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+    text-align: left;
+}
+
+.form-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    color: #333;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+.form-group input:focus {
+    border-color: #004080;
+}
+
+button[type="submit"] {
+    background-color: #004080;
+    color: #fff;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button[type="submit"]:hover {
+    background-color: #003060;
+}
+
+/* Footer */
+footer {
+    background-color: #004080;
+    color: #fff;
+    text-align: center;
+    padding: 1rem 0;
+    margin-top: 2rem;
+}
+
+footer p {
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+.alert-container {
+    display: none;
+    position: fixed;
+    top: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #004080;
+    color: #fff;
+    padding: 1rem 1.5rem;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    font-size: 1rem;
+    font-weight: bold;
+    animation: slide-down 0.5s ease, fade-out 3s ease 2.5s forwards;
+}
+
+.alert-container i {
+    margin-right: 0.5rem;
+    color: #ffcc00;
+}
+
+@keyframes slide-down {
+    from {
+        transform: translateX(-50%) translateY(-50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(-50%) translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes fade-out {
+    to {
+        opacity: 0;
+    }
+}
+
+</style>
+<body>
+    <nav>
+        <div class="nav-container">
+            <h2 class="logo"> <i class="fas fa-crown"></i> Taj Hotel</h2>
+            <ul class="nav-links">
+                <li><a href="/UserHome"><i class="fas fa-home" style="font-size: 1.1rem;"></i> Home</a></li>
+                
+            
+                <li class="user-dropdown" style="cursor: pointer;">
+                    <i class="fas fa-user-circle" style="font-size: 1.1rem;"></i>
+                    <span><%= user.username %></span>
+                     
+                </li>
+                
+            </ul>
+        </div>
+    </nav>
+
+    <div class="edit-profile-container">
+        <h2>Edit Profile</h2>
+        <form id="editProfileForm" action="/edit-profile" method="POST">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" value="<%= user.username %>" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" value="<%= user.email %>" required>
+            </div>
+            <button type="submit">Save Changes</button>
+        </form>
+    </div>
+
+
+    <div id="alertBox" class="alert-container">
+        <i class="fas fa-check-circle"></i> Changes saved successfully!
+    </div>
+    <footer>
+        <p>&copy; 2024 Taj Hotel. All Rights Reserved.</p>
+    </footer>
+
+   
+
+    <script>
+        // JavaScript to handle form submission
+        document.getElementById('editProfileForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the default form submission
+            const form = event.target;
+
+            // Show alert message
+            const alertBox = document.getElementById('alertBox');
+            alertBox.style.display = 'block';
+
+            // Simulate server processing delay
+            setTimeout(() => {
+                form.submit(); // Submit the form after showing the alert
+            }, 3000); // Wait for the alert animation to finish
+        });
+    </script>
+</body>
+</html>
