@@ -11,37 +11,137 @@
 </head>
  
 <body>
-   
-    <nav>
-     
-        <div class="nav-container">
-            <h2 class="logo"> <i class="fas fa-crown"></i> Taj Hotel</h2>
-            <ul class="nav-links">
-                <li><a href="/UserHome"> <i class="fas fa-home" style="font-size: 1.1rem;"></i> Home</a></li>
-                <li><a href="#about"><i class="fas fa-info-circle" style="font-size: 1.1rem;"></i> About Us</a></li>
-                <li><a href="#contact"><i class="fas fa-envelope" style="font-size: 1.1rem;"></i> Contact</a></li>
-             
-
-                <% if (user) { %>
-                <li class="user-dropdown" style="cursor: pointer;">
-                    <i class="fas fa-user-circle" style="font-size: 1.1rem;"></i>
-                    <span><%= user.username %></span>
-                    <div class="dropdown-menu">
-                        <a href="/edit-profile"> <i class="fas fa-edit edit-icon"></i> Edit Profile</a>
-                        <a href="/user-bookings"><i class="fas fa-calendar-check"></i> My Bookings</a>
-                        <a href="/logout"><i class="fas fa-sign-out-alt" style="font-size: 1.1rem;"></i> Logout</a>
-                    </div>
-                </li>
-                <% } else { %>
-                <li><a href="/login"><i class="fas fa-sign-in-alt"></i> User Login</a></li>
-                <% } %>
-                <li><a href="/admin/dashboard"><i class="fas fa-sign-in-alt"></i> Admin Login</a></li>
-
-            </ul>
-        </div>
+    <style>
+       
+       #Menu{
+            display: none;
+            
+          }
       
-    </nav>
+        /* Mobile View */
+        @media (max-width: 768px) {
+          .nav-container {
+            flex-direction: column;
+            align-items: flex-start;
+          }
+      
+          .hamburger {
+            display: block;
+            font-size: 1.5rem;
+            cursor: pointer;
+            margin-left: auto;
+          }
+      
+          .nav-links {
+            display: none;
+            flex-direction: column;
+            width: 100%;
+            background: rgb(131, 58, 180);
+            background: linear-gradient(
+              180deg,
+              rgba(131, 58, 180, 1) 0%,
+              rgba(253, 29, 29, 1) 50%,
+              rgba(252, 176, 69, 1) 100%
+            );
+            position: absolute;
+            top: 100%;
+            left: 0;
+            z-index: 5;
+            padding: 1rem 0;
+          }
+      
+          .nav-links li {
+            margin: 0;
+            text-align: center;
+          }
+      
+          .nav-links li a {
+            display: block;
+            padding: 1rem;
+            font-size: 1.2rem;
+          }
+      
+          .nav-links.active {
+            display: flex;
+          }
+          #Menu{
+            display: block;
+            position: absolute;
+            padding-top: 25px;
+            right: 20px;
+            font-weight: 800;
+          }
+          .logo{
+            padding-left: 10px;
+        
+          }
+        }
+      </style>
+      
+      <script>
+        function toggleMenu() {
+          const navLinks = document.querySelector('.nav-links');
+          navLinks.classList.toggle('active');
+        }
+      </script>
+      
+      <nav>
+        <div class="nav-container">
+          <h2 class="logo">
+            <i class="fas fa-crown"></i> Taj Hotel
+          </h2>
+          <i class="fas fa-bars hamburger" onclick="toggleMenu()" id="Menu"></i>
+          <ul class="nav-links">
+            <li>
+              <a href="/UserHome">
+                <i class="fas fa-home" style="font-size: 1.1rem;"></i> Home
+              </a>
+            </li>
+            <li>
+              <a href="#about">
+                <i class="fas fa-info-circle" style="font-size: 1.1rem;"></i> About Us
+              </a>
+            </li>
+            <li>
+              <a href="#contact">
+                <i class="fas fa-envelope" style="font-size: 1.1rem;"></i> Contact
+              </a>
+            </li>
+            <% if (user) { %>
+            <li class="user-dropdown" style="cursor: pointer;">
+              <i class="fas fa-user-circle" style="font-size: 1.1rem;"></i>
+              <span><%= user.username %></span>
+              <div class="dropdown-menu">
+                <a href="/edit-profile">
+                  <i class="fas fa-edit edit-icon"></i> Edit Profile
+                </a>
+                <a href="/user-bookings">
+                  <i class="fas fa-calendar-check"></i> My Bookings
+                </a>
+                <a href="/logout">
+                  <i class="fas fa-sign-out-alt" style="font-size: 1.1rem;"></i> Logout
+                </a>
+              </div>
+            </li>
+            <% } else { %>
+            <li>
+              <a href="/login">
+                <i class="fas fa-sign-in-alt"></i> User Login
+              </a>
+            </li>
+            <% } %>
+            <li>
+              <a href="/admin/dashboard">
+                <i class="fas fa-sign-in-alt"></i> Admin Login
+              </a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+      
 
+
+  
     <div class="slideshow-container">
         <div class="mySlides fade">
             <div class="text">Experience Luxury at Taj</div>
