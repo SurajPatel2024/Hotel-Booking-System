@@ -79,10 +79,22 @@
       </style>
       
       <script>
-        function toggleMenu() {
-          const navLinks = document.querySelector('.nav-links');
-          navLinks.classList.toggle('active');
-        }
+     function toggleMenu() {
+    const navLinks = document.querySelector('.nav-links');
+    const menuIcon = document.getElementById('Menu');
+
+    navLinks.classList.toggle('active');
+    
+    // Toggle between hamburger and close icons
+    if (navLinks.classList.contains('active')) {
+        menuIcon.classList.remove('fa-bars');
+        menuIcon.classList.add('fa-times');
+    } else {
+        menuIcon.classList.remove('fa-times');
+        menuIcon.classList.add('fa-bars');
+    }
+}
+
       </script>
       
       <nav>
