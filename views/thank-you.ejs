@@ -127,11 +127,13 @@ p strong {
     <p><strong>Name:</strong> <%= booking.userName %></p>
     <p><strong>Email:</strong> <%= booking.email %></p>
     <p><strong>Contact:</strong> <%= booking.userContact %></p>
-    <p><strong>Room Number:</strong> <%= booking.roomNumber %></p>
+    <p><strong>Room Number:</strong> <%= room.roomNumber %></p>
+    <p><strong>Price:</strong>  ₹<%= room.price %>/-</p>
     <p><strong>Start Date:</strong> <%= new Date(booking.startDate).toDateString() %></p>
     <p><strong>End Date:</strong> <%= new Date(booking.endDate).toDateString() %></p>
     <p><strong>Payment Status:</strong> <%= booking.paymentStatus %></p>
-
+ 
+    
     <p>We have received your booking request. Our team will confirm your reservation shortly.</p>
 
  

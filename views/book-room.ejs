@@ -237,7 +237,7 @@
     <h2>Room Details</h2>
     <p><strong>Room Number:</strong> <%= room.roomNumber %></p>
     <p><strong>Type:</strong> <%= room.type %></p>
-    <p><strong>Price:</strong> Rs. <%= room.price %></p>
+    <p><strong>Price:</strong>  ₹<%= room.price %>/-</p>
     <p><strong>Description:</strong> <%= room.description %></p>
 
     <% if (room.status === 'Available') { %>

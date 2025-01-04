@@ -54,6 +54,7 @@
         <p><strong>Contact:</strong> <%= booking.userContact %></p>
         <p><strong>Start Date:</strong> <%= new Date(booking.startDate).toLocaleDateString() %></p>
         <p><strong>End Date:</strong> <%= new Date(booking.endDate).toLocaleDateString() %></p>
+        <p><strong>Price:</strong>  ₹<%= booking.room.price %>/-</p>
         <p><strong>Payment Status:</strong> <%= booking.paymentStatus %></p>
         <!-- You can add more details as necessary -->
     </div>
