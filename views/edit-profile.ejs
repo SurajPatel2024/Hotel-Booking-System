@@ -20,7 +20,8 @@ body {
 
 /* Navigation bar */
 nav {
-    background-color: #004080;
+    background: rgb(131,58,180);
+    background: linear-gradient(90deg, rgba(131,58,180,1) 0%, rgba(253,29,29,1) 50%, rgba(252,176,69,1) 100%);
     color: #fff;
     padding: 0.5rem 1rem;
     position: sticky;
@@ -65,11 +66,12 @@ nav {
     text-decoration: none;
     color: #fff;
     font-size: 1rem;
+    font-weight: 600;
     transition: color 0.3s ease;
 }
 
 .nav-links a:hover {
-    color: #ffcc00;
+    color: #d9ff00;
 }
 
 .user-dropdown {
@@ -149,7 +151,7 @@ nav {
 }
 
 button[type="submit"] {
-    background-color: #004080;
+    background-color: #0b8000;
     color: #fff;
     border: none;
     padding: 0.8rem 1.5rem;
@@ -160,12 +162,13 @@ button[type="submit"] {
 }
 
 button[type="submit"]:hover {
-    background-color: #003060;
+    background-color: #036000;
 }
 
 /* Footer */
 footer {
-    background-color: #004080;
+    background: rgb(131,58,180);
+    background: linear-gradient(90deg, rgba(131,58,180,1) 0%, rgba(253,29,29,1) 50%, rgba(252,176,69,1) 100%);
     color: #fff;
     text-align: center;
     padding: 1rem 0;
@@ -183,7 +186,7 @@ footer p {
     top: 1rem;
     left: 50%;
     transform: translateX(-50%);
-    background-color: #004080;
+    background-color: #158000;
     color: #fff;
     padding: 1rem 1.5rem;
     border-radius: 5px;
@@ -196,7 +199,7 @@ footer p {
 
 .alert-container i {
     margin-right: 0.5rem;
-    color: #ffcc00;
+    color: #ffffff;
 }
 
 @keyframes slide-down {
@@ -225,7 +228,7 @@ footer p {
                 <li><a href="/UserHome"><i class="fas fa-home" style="font-size: 1.1rem;"></i> Home</a></li>
                 <li class="user-dropdown" style="cursor: pointer;">
                     <i class="fas fa-user-circle" style="font-size: 1.1rem;"></i>
-                    <span><%= user.username %></span>
+                    <span style="font-weight: 600;"><%= user.username %></span>
                 </li>
             </ul>
         </div>
@@ -249,7 +252,7 @@ footer p {
     </div>
 
     <div id="alertBox" class="alert-container">
-        <i class="fas fa-check-circle"></i> Changes saved successfully!
+        <i class="fas fa-check-circle"></i> Changes Saved Successfully!
     </div>
     <footer>
         <p>&copy; 2024 Taj Hotel. All Rights Reserved.</p>

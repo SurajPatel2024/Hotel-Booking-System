@@ -54,6 +54,7 @@ nav {
     color: white;
     font-size: 1rem;
     padding: 0.5rem;
+    font-weight: 600;
     transition: background-color 0.3s;
 }
 
@@ -851,4 +852,30 @@ footer {
     .accommodation-option p {
         font-size: 0.9em;
     }
+}
+
+
+.room-filter {
+    margin: 20px auto;
+    text-align: center;
+    padding: 10px;
+}
+
+.room-filter label {
+    font-size: 16px;
+    margin-right: 10px;
+}
+
+.room-filter select {
+    padding: 8px 12px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #fff;
+    cursor: pointer;
+}
+
+.room-filter select:focus {
+    border-color: #007BFF;
+    outline: none;
 }

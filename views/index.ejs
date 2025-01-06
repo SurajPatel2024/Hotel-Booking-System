@@ -122,7 +122,7 @@
             <% if (user) { %>
             <li class="user-dropdown" style="cursor: pointer;">
               <i class="fas fa-user-circle" style="font-size: 1.1rem;"></i>
-              <span><%= user.username %></span>
+              <span style="font-weight: 600;"><%= user.username %></span>
               <div class="dropdown-menu">
                 <a href="/edit-profile">
                   <i class="fas fa-edit edit-icon"></i> Edit Profile
@@ -213,123 +213,72 @@
     </div>
 </div>
 
+ 
+
+   
+ 
 
 
-    <!-- Main Content -->
-    <div class="container">
-        <h2>Available Rooms</h2>
-        <ul class="room-list">
-            <% rooms.forEach(room => { %>
-            <li>
-                <% if (room.image && room.image.data) { %>
-                <img src="data:<%= room.image.contentType %>;base64,<%= room.image.data.toString('base64') %>" alt="Room Image" width="500" >
-                <% } else { %>
-                <p>No image available</p>
-                <% } %>
-                <div class="room-info">
-                    <strong>Room <%= room.roomNumber %></strong> - Type: <%= room.type %> <br> Price:  ₹<%= room.price %>/-
-                </div>
-                <div class="room-description">
-                    <% if (room.type === "Single") { %>
-                        <div class="room-features">
-                            <i class="fas fa-bed"></i> Single Bed  
-                            <i class="fas fa-wifi"></i> Free Wi-Fi  
-                            <i class="fas fa-tv"></i> Flat Screen TV  
-                            <i class="fas fa-shower"></i> Ensuite Bathroom  
-                            <i class="fas fa-snowflake"></i> Air Conditioning  
-                            <i class="fas fa-utensils"></i> Room Service  
-                            <p><%= room.description %></p>
-                        </div>
-                    <% } else if (room.type === "Double") { %>
-                        <div class="room-features">
-                            <i class="fas fa-bed"></i> Double Beds  
-                            <i class="fas fa-wifi"></i> Free Wi-Fi  
-                            <i class="fas fa-tv"></i> Flat Screen TV  
-                            <i class="fas fa-shower"></i> Ensuite Bathroom  
-                            <i class="fas fa-snowflake"></i> Air Conditioning  
-                            <i class="fas fa-utensils"></i> Room Service  
-                            <i class="fas fa-phone"></i> Direct Dial Phone  
-                            <p><%= room.description %></p>
-                        </div>
-                    <% } else if (room.type === "Suite") { %>
-                        <div class="room-features">
-                            <i class="fas fa-bed"></i> King-Sized Bed  
-                            <i class="fas fa-couch"></i> Living Area   
-                            <i class="fas fa-wifi"></i> Free Wi-Fi  
-                            <i class="fas fa-tv"></i> Flat Screen TV  
-                            <i class="fas fa-bath"></i> Luxury Bathroom  
-                            <i class="fas fa-snowflake"></i> Air Conditioning  
-                            <i class="fas fa-utensils"></i> Room Service  
-                            <i class="fas fa-coffee"></i> Coffee Maker  
-                            <i class="fas fa-phone"></i> Direct Dial Phone  
-                            <p><%= room.description %></p>
-                        </div>
-                    <% } else if (room.type === "Penthouse") { %>
-                        <div class="room-features">
-                            <i class="fas fa-bed"></i> King-Sized Bed  
-                            <i class="fas fa-couch"></i> Living and Dining Areas  
-                            <i class="fas fa-wifi"></i> Free Wi-Fi  
-                            <i class="fas fa-tv"></i> Flat Screen TV  
-                            <i class="fas fa-bath"></i> Luxury Bathroom with Jacuzzi  
-                            <i class="fas fa-snowflake"></i> Air Conditioning  
-                            <i class="fas fa-utensils"></i> Room Service  
-                            <i class="fas fa-coffee"></i> Coffee Maker  
-                            <i class="fas fa-phone"></i> Direct Dial Phone  
-                            <i class="fas fa-pool"></i> Private Pool  
-                            <i class="fas fa-lemon"></i> Mini-Bar  
-                            <p><%= room.description %></p>
-                        </div>
-                    <% } else if (room.type === "Dormitory") { %>
-                        <div class="room-features">
-                            <i class="fas fa-bed"></i> Multiple Beds  
-                            <i class="fas fa-wifi"></i> Free Wi-Fi 
-                            <i class="fas fa-shower"></i> Shared Bathroom 
-                            <i class="fas fa-snowflake"></i> Air Conditioning  
-                            <i class="fas fa-utensils"></i> Shared Room Service  
-                            <i class="fas fa-lock"></i> Locker Storage  
-                            <p><%= room.description %></p>
-                        </div>
-                    <% } else if (room.type === "Family") { %>
-                        <div class="room-features">
-                            <i class="fas fa-bed"></i> Multiple Beds (Twin, Queen, or Sofa)  
-                            <i class="fas fa-wifi"></i> Free Wi-Fi  
-                            <i class="fas fa-tv"></i> Flat Screen TV  
-                            <i class="fas fa-shower"></i> Ensuite Bathroom  
-                            <i class="fas fa-snowflake"></i> Air Conditioning  
-                            <i class="fas fa-utensils"></i> Room Service  
-                            <i class="fas fa-baby-carriage"></i> Baby Crib Available (on request)  
-                            <p><%= room.description %></p>
-                        </div>
-                    <% } else if (room.type === "Accessible") { %>
-                        <div class="room-features">
-                            <i class="fas fa-bed"></i> Accessible Bed  
-                            <i class="fas fa-wifi"></i> Free Wi-Fi  
-                            <i class="fas fa-tv"></i> Flat Screen TV  
-                            <i class="fas fa-shower"></i> Accessible Bathroom  
-                            <i class="fas fa-snowflake"></i> Air Conditioning  
-                            <i class="fas fa-utensils"></i> Room Service  
-                            <i class="fas fa-wheelchair"></i> Wheelchair Access  
-                            <p><%= room.description %></p>
-                        </div>
-                    <% } %>
-                     </div>
-                
-                
-                   
-            
-                
-                <% if (room.status === 'Available') { %>
-                <span class="room-status available"><%= room.status %></span>
-                <a href="/book-room/<%= room._id %>" class="book-btn">
-                    <i class="fas fa-bed"></i> Book Room
-                </a>
-                <% } else { %>
-                <span class="room-status booked"><%= room.status %></span>
-                <% } %>
-            </li>
-            <% }) %>
-        </ul>
-    </div>
+<!-- Available Rooms Section -->
+<div class="container">
+  <h2>Available Rooms</h2>
+  <div class="room-filter">
+    <label for="roomFilter" style="    color: #1F3A64; font-weight: 600; font-size: 18px;">Filter by Room Type: </label>
+    <select id="roomFilter" onchange="filterRooms()">
+        <option value="All">All</option>
+        <option value="Single">Single</option>
+        <option value="Double">Double</option>
+        <option value="Suite">Suite</option>
+        <option value="Penthouse">Penthouse</option>
+        <option value="Dormitory">Dormitory</option>
+        <option value="Family">Family</option>
+        <option value="Accessible">Accessible</option>
+    </select>
+  </div>
+  <ul class="room-list">
+      <% rooms.forEach(room => { %>
+      <li class="room-item" data-type="<%= room.type %>">
+          <% if (room.image && room.image.data) { %>
+          <img src="data:<%= room.image.contentType %>;base64,<%= room.image.data.toString('base64') %>" alt="Room Image" width="500" >
+          <% } else { %>
+          <p>No image available</p>
+          <% } %>
+          <div class="room-info">
+              <strong>Room <%= room.roomNumber %></strong> - Type: <%= room.type %> <br> Price: ₹<%= room.price %>/-
+          </div>
+          <div class="room-description">
+              <p><%= room.description %></p>
+          </div>
+          <% if (room.status === 'Available') { %>
+          <span class="room-status available"><%= room.status %></span>
+          <a href="/book-room/<%= room._id %>" class="book-btn">
+              <i class="fas fa-bed"></i> Book Room
+          </a>
+          <% } else { %>
+          <span class="room-status booked"><%= room.status %></span>
+          <% } %>
+      </li>
+      <% }) %>
+  </ul>
+</div>
+
+<!-- JavaScript for Filtering -->
+<script>
+  function filterRooms() {
+      const filterValue = document.getElementById('roomFilter').value;
+      const roomItems = document.querySelectorAll('.room-item');
+
+      roomItems.forEach(item => {
+          const roomType = item.getAttribute('data-type');
+          if (filterValue === 'All' || roomType === filterValue) {
+              item.style.display = '';
+          } else {
+              item.style.display = 'none';
+          }
+      });
+  }
+</script>
+
 <!-- About Section -->
 <div class="about-section" id="about">
     <div class="about-content">
@@ -371,7 +320,7 @@
 
     <!-- Footer Section -->
     <footer>
-        <p>&copy; 2024 Taj Hotel. All Rights Reserved.</p>
+        <p style="font-weight: 600;">&copy; 2024 Taj Hotel. All Rights Reserved.</p>
     </footer>
 
 </body>
