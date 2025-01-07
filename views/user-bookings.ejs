@@ -4,149 +4,159 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>User Bookings</title>
-</head>
-<style>
-  /* General Styles */
-  body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f9f9f9;
-    color: #333;
-    line-height: 1.6;
-  }
+  <style>
+    /* General Styles */
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(360deg, rgb(220, 194, 238) 0%, rgb(250, 194, 194) 50%, rgb(252, 224, 185) 100%);
+      color: #333;
+      line-height: 1.6;
+    }
   
-  header {
-    background-color: #00796b; /* Premium green shade */
-    color: white;
-    padding: 15px 20px;
-    text-align: center;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  }
-  
-  header h1 {
-    margin: 0;
-    font-size: 1.8rem;
-  }
-  
-  header p {
-    margin: 5px 0;
-    font-size: 1rem;
-  }
-  
-/* Flexbox Center Alignment for h2 */
-.flex-container {
-  display: flex;
-  justify-content: center; /* Horizontally center the content */
-  align-items: center; /* Vertically center the content */
-  margin: 20px 0;
-}
+    /* Flexbox Center Alignment for h2 */
+    .flex-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 20px 0;
+    }
 
-h2 {
-  color: #00796b;
+    h2 {
   font-size: 1.5rem;
-  border-bottom: 2px solid #ddd;
-  padding-bottom: 5px;
-  margin: 0;
+  font-weight: bold;
+  text-align: center;
+  background: linear-gradient(360deg, rgb(149, 0, 255) 0%, rgb(255, 0, 0) 50%, rgb(255, 149, 0) 100%);
+  -webkit-background-clip: text; /* For Safari */
+  background-clip: text; /* For Chrome and other modern browsers */
+  color: transparent; /* Ensure the text color is transparent to show the background gradient */
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
 }
 
-  
-  /* Grid Styling */
-  ul {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 20px;
-    list-style: none;
-    padding: 0;
-    max-width: 1000px;
-    margin: 20px auto;
-  }
-  
-  ul li {
-    background-color: #fff;
-    border: 1px solid #ddd;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s, box-shadow 0.3s;
-  }
-  
-  ul li:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
-  }
-  
-  ul li p {
-    margin: 8px 0;
-    font-size: 1rem;
-  }
-  
-  ul li p strong {
-    color: #00796b;
-  }
-  
-  /* No Bookings Message */
-  p.no-bookings {
-    text-align: center;
-    font-size: 1.2rem;
-    color: #777;
-    margin-top: 20px;
-  }
-  
-
-  button.button {
-  background-color: #00796b; /* Button background color */
-  color: white; /* Text color */
-  padding: 10px 20px; /* Padding around the text */
-  border: none; /* Remove default border */
-  border-radius: 5px; /* Rounded corners */
-  font-size: 1rem; /* Font size */
-  cursor: pointer; /* Change cursor to pointer on hover */
-  margin: 20px; /* Add margin around the button */
-  transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transitions */
+h2 i {
+  font-size: 1.8rem;
+  color: transparent;
+  background: linear-gradient(360deg, rgb(149, 0, 255) 0%, rgb(255, 0, 0) 50%, rgb(255, 149, 0) 100%);
+  -webkit-background-clip: text; /* For Safari */
+  background-clip: text; /* For Chrome and other modern browsers */
 }
 
-button.button a {
-  text-decoration: none; /* Remove underline from link */
-  color: white; /* Match link text color with button */
-}
 
-button.button:hover {
-  background-color: #005a4f; /* Darker shade on hover */
-  transform: scale(1.05); /* Slightly enlarge on hover */
-}
 
-button.button:active {
-  transform: scale(1); /* Reset scale when clicked */
-}
-
-  /* Responsive Styling */
-  @media (max-width: 600px) {
-    header h1 {
-      font-size: 1.5rem;
+  
+    /* Grid Styling */
+    ul {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      list-style: none;
+      padding: 0;
+      max-width: 1000px;
+      margin: 20px auto;
     }
   
     ul li {
-      padding: 15px;
+      background-color: #fff;
+      border: 1px solid #ddd;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+  
+    ul li:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
     }
   
     ul li p {
-      font-size: 0.9rem;
+      margin: 8px 0;
+      font-size: 1rem;
     }
-  }
+  
+    ul li p strong {
+      color: #00796b;
+    }
+
+    ul li img {
+      width: 100%;
+      max-height: 200px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-bottom: 10px;
+    }
+
+    /* No Bookings Message */
+    p.no-bookings {
+      text-align: center;
+      font-size: 1.2rem;
+      color: #777;
+      margin-top: 20px;
+    }
+  
+    /* Button Styling */
+    button.button {
+      background: linear-gradient(360deg, rgb(149, 0, 255) 0%, rgb(255, 0, 0) 50%, rgb(255, 149, 0) 100%);
+      color: rgb(255, 0, 0); /* Text color */
+      padding: 14px 28px; /* Padding around the text */
+      border: none; /* Remove default border */
+      border-radius: 50px; /* Rounded corners */
+      font-size: 1.1rem; /* Font size */
+      cursor: pointer; /* Change cursor to pointer on hover */
+      margin: 20px; /* Add margin around the button */
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+      transition: background 0.3s, transform 0.2s ease, box-shadow 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    button.button a {
+      text-decoration: none;
+      color: rgb(255, 255, 255);
+      font-weight: 600;
+    }
+
+    button.button:hover {
+      background: linear-gradient(360deg, rgb(47, 0, 122) 0%, rgb(138, 0, 0) 50%, rgb(143, 88, 0) 100%);
+      transform: scale(1.1);
+      box-shadow: 0 12px 25px rgba(0, 0, 0, 0.2);
+    }
+
+    button.button:active {
+      transform: scale(1);
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+    }
+
+    button i {
+      margin-right: 10px;
+      font-size: 1.2rem;
+    }
+
+    /* Responsive Styling */
+    @media (max-width: 600px) {
+      ul li {
+        padding: 15px;
+      }
+      ul li p {
+        font-size: 0.9rem;
+      }
+    }
   </style>
-  
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+</head>
+
 <body>
-  <header>
-    <h1>Welcome, <%= user.username %></h1>
-    <p>Email: <%= user.email %></p>
-    <p>User ID: <%= user._id %></p>
-  </header>
-  <button class="button"><a href="/UserHome">Back to Home</a></button>
+  <button class="button"><a href="/UserHome"><i class="fas fa-home"></i>Home</a></button>
+
   <div class="flex-container">
-    <h2>Your Bookings</h2>
+    <h2><i class="fas fa-bookmark"></i> Your Bookings</h2>
+
   </div>
-  
+
   <ul>
     <% 
       let userBookings = bookings.filter(booking => booking.email === user.email); 
@@ -156,6 +166,7 @@ button.button:active {
     <% } else { %>
       <% userBookings.forEach(booking => { %>
         <li>
+          <img src="data:<%= booking.room.image.contentType %>;base64,<%= booking.room.image.data.toString('base64') %>" alt="Room Image">
           <p><strong>Booking ID: </strong> <%= booking._id %></p>
           <p><strong>Room Number: </strong><%= booking.room?.roomNumber || 'Room details unavailable' %></p>
           <p><strong>User Name:</strong> <%= booking.userName %></p>
@@ -163,11 +174,8 @@ button.button:active {
           <p><strong>Start Date:</strong> <%= new Date(booking.startDate).toDateString() %></p>
           <p><strong>End Date: </strong><%= new Date(booking.endDate).toDateString() %></p>
           <p><strong>Room Type:</strong> <%= booking.room.type %></p>
-          <p><strong>Price:</strong>  ₹<%= booking.room.price %>/-</p>
-          
-       
+          <p><strong>Price:</strong> ₹<%= booking.room.price %>/-</p>
           <p><strong>Payment Status:</strong> <%= booking.paymentStatus %></p>
-         
         </li>
       <% }); %>
     <% } %>

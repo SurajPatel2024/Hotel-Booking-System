@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Booking Details</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -39,25 +40,84 @@
         .back-btn:hover {
             background-color: #1e6420;
         }
+        .print-btn {
+            display: inline-block;
+            padding: 10px 15px;
+            background-color: #2196F3;
+            color: white;
+            font-size: 16px;
+            border-radius: 4px;
+            text-decoration: none;
+            margin: 20px 0;
+        }
+        .print-btn:hover {
+            background-color: #1e6bb8;
+        }
+        .print-btn i {
+            margin-right: 8px;
+        }
+        /* Watermark Style */
+        .watermark {
+            position: absolute;
+            top: 30%;
+            left: 30%;
+            font-size: 100px;
+            color: rgba(0, 0, 0, 0.1);
+            transform: rotate(-30deg);
+            z-index: -1;
+            font-weight: bold;
+            font-family: 'Arial', sans-serif;
+        }
     </style>
 </head>
 <body>
     <!-- Back Button -->
     <a href="/view-bookings" class="back-btn">Back to Bookings</a>
 
+    <!-- Print Button -->
+    <a href="#" class="print-btn" onclick="printBookingDetails()">
+        <i class="fas fa-print"></i> Print Booking Details
+    </a>
+
     <div class="details">
         <h1>Booking Details</h1>
-        <p><strong>Booking ID:</strong> <%= booking._id %></p>
-        <p><strong>Room Number:</strong> <%= booking.room.roomNumber %></p>
-        <p><strong>User Name:</strong> <%= booking.userName %></p>
-        <p><strong>User Email:</strong> <%= booking.email %></p>
-        <p><strong>Contact:</strong> <%= booking.userContact %></p>
-        <p><strong>Start Date:</strong> <%= new Date(booking.startDate).toLocaleDateString() %></p>
-        <p><strong>End Date:</strong> <%= new Date(booking.endDate).toLocaleDateString() %></p>
-        <p><strong>Price:</strong>  ₹<%= booking.room.price %>/-</p>
-        <p><strong>Payment Status:</strong> <%= booking.paymentStatus %></p>
+        <p style="font-style: italic; font-weight: 600;"><strong style="color: deeppink;">Booking ID:</strong> <%= booking._id %></p>
+        <p style="font-style: italic; font-weight: 600;"><strong style="color: deeppink;">Room Number:</strong> <%= booking.room.roomNumber %></p>
+        <p style="font-style: italic; font-weight: 600;"><strong style="color: deeppink;">User Name:</strong> <%= booking.userName %></p>
+        <p style="font-style: italic; font-weight: 600;"><strong style="color: deeppink;">User Email:</strong> <%= booking.email %></p>
+        <p style="font-style: italic; font-weight: 600;"><strong style="color: deeppink;">Contact:</strong> <%= booking.userContact %></p>
+        <p style="font-style: italic; font-weight: 600;"><strong style="color: deeppink;">Start Date:</strong> <%= new Date(booking.startDate).toLocaleDateString() %></p>
+        <p style="font-style: italic; font-weight: 600;"><strong style="color: deeppink;">End Date:</strong> <%= new Date(booking.endDate).toLocaleDateString() %></p>
+        <p style="font-style: italic; font-weight: 600;"><strong style="color: deeppink;">Price:</strong> ₹<%= booking.room.price %>/-</p>
+        <p style="font-style: italic; font-weight: 600;"><strong style="color: deeppink;">Payment Status:</strong> <%= booking.paymentStatus %></p>
         <!-- You can add more details as necessary -->
     </div>
 
+    <script>
+        // Function to trigger the print dialog with watermark
+        function printBookingDetails() {
+            // Create a new window for printing
+            var printWindow = window.open('', '', 'height=600,width=800');
+            printWindow.document.write('<html><head><title>Booking Details</title>');
+            printWindow.document.write('<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">');
+            printWindow.document.write('<style>');
+            printWindow.document.write('body { font-family: Arial, sans-serif; margin: 20px; position: relative; }');
+            printWindow.document.write('.details { max-width: 800px; margin: 0 auto; background-color: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); }');
+            printWindow.document.write('.details p { font-size: 16px; margin: 10px 0; }');
+            printWindow.document.write('.watermark { position: absolute; top: 30%; left: 30%; font-size: 100px; color: rgba(0, 0, 0, 0.1); transform: rotate(-30deg); z-index: -1; font-weight: bold; font-family: "Arial", sans-serif; }');
+            printWindow.document.write('</style></head><body>');
+            
+            // Add the watermark text
+            printWindow.document.write('<div class="watermark">♕Taj Hotel</div>');
+            
+            // Copy the booking details into the print window
+            printWindow.document.write(document.querySelector('.details').innerHTML);
+            
+            // Close the document and trigger the print dialog
+            printWindow.document.write('</body></html>');
+            printWindow.document.close();
+            printWindow.print();
+        }
+    </script>
 </body>
 </html>
