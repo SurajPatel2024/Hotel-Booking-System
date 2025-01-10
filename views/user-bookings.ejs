@@ -14,7 +14,7 @@
       color: #333;
       line-height: 1.6;
     }
-  
+
     /* Flexbox Center Alignment for h2 */
     .flex-container {
       display: flex;
@@ -24,29 +24,26 @@
     }
 
     h2 {
-  font-size: 1.5rem;
-  font-weight: bold;
-  text-align: center;
-  background: linear-gradient(360deg, rgb(149, 0, 255) 0%, rgb(255, 0, 0) 50%, rgb(255, 149, 0) 100%);
-  -webkit-background-clip: text; /* For Safari */
-  background-clip: text; /* For Chrome and other modern browsers */
-  color: transparent; /* Ensure the text color is transparent to show the background gradient */
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-}
+      font-size: 1.5rem;
+      font-weight: bold;
+      text-align: center;
+      background: linear-gradient(360deg, rgb(149, 0, 255) 0%, rgb(255, 0, 0) 50%, rgb(255, 149, 0) 100%);
+      -webkit-background-clip: text; /* For Safari */
+      background-clip: text; /* For Chrome and other modern browsers */
+      color: transparent; /* Ensure the text color is transparent to show the background gradient */
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
 
-h2 i {
-  font-size: 1.8rem;
-  color: transparent;
-  background: linear-gradient(360deg, rgb(149, 0, 255) 0%, rgb(255, 0, 0) 50%, rgb(255, 149, 0) 100%);
-  -webkit-background-clip: text; /* For Safari */
-  background-clip: text; /* For Chrome and other modern browsers */
-}
+    h2 i {
+      font-size: 1.8rem;
+      color: transparent;
+      background: linear-gradient(360deg, rgb(149, 0, 255) 0%, rgb(255, 0, 0) 50%, rgb(255, 149, 0) 100%);
+      -webkit-background-clip: text; /* For Safari */
+      background-clip: text; /* For Chrome and other modern browsers */
+    }
 
-
-
-  
     /* Grid Styling */
     ul {
       display: grid;
@@ -57,7 +54,7 @@ h2 i {
       max-width: 1000px;
       margin: 20px auto;
     }
-  
+
     ul li {
       background-color: #fff;
       border: 1px solid #ddd;
@@ -66,24 +63,24 @@ h2 i {
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
       transition: transform 0.3s, box-shadow 0.3s;
     }
-  
+
     ul li:hover {
       transform: translateY(-3px);
       box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
     }
-  
+
     ul li p {
       margin: 8px 0;
       font-size: 1rem;
     }
-  
+
     ul li p strong {
       color: #00796b;
     }
 
     ul li img {
       width: 100%;
-      max-height: 200px;
+      max-height: 300px;
       object-fit: cover;
       border-radius: 8px;
       margin-bottom: 10px;
@@ -96,17 +93,17 @@ h2 i {
       color: #777;
       margin-top: 20px;
     }
-  
+
     /* Button Styling */
     button.button {
       background: linear-gradient(360deg, rgb(149, 0, 255) 0%, rgb(255, 0, 0) 50%, rgb(255, 149, 0) 100%);
-      color: rgb(255, 0, 0); /* Text color */
-      padding: 14px 28px; /* Padding around the text */
-      border: none; /* Remove default border */
-      border-radius: 50px; /* Rounded corners */
-      font-size: 1.1rem; /* Font size */
-      cursor: pointer; /* Change cursor to pointer on hover */
-      margin: 20px; /* Add margin around the button */
+      color: white;
+      padding: 14px 28px;
+      border: none;
+      border-radius: 50px;
+      font-size: 1.1rem;
+      cursor: pointer;
+      margin: 20px;
       box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
       transition: background 0.3s, transform 0.2s ease, box-shadow 0.3s ease;
       display: flex;
@@ -136,15 +133,120 @@ h2 i {
       font-size: 1.2rem;
     }
 
+    /* Print Styles */
+    @media print {
+      body {
+        background: none;
+        color: #000;
+      }
+
+      .print-button, .contact-button {
+        display: none;
+      }
+      #contact-button{
+        display: none;
+      }
+
+      body::after {
+        content: "♕TajHotel";
+        position: fixed;
+        top: 60%;
+        left: 20%;
+        transform: translate(-50%, -50%);
+        font-size: 8rem;
+        color: rgba(0, 0, 0, 0.1);
+        font-weight: bold;
+        pointer-events: none;
+        z-index: 1000;
+        transform: rotate(-45deg);
+      }
+    }
+
+    /* Button Styling */
+    .print-button, .contact-button {
+      background-color: #00796b;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      font-size: 1rem;
+      cursor: pointer;
+      margin: 10px;
+      transition: background-color 0.3s ease;
+    }
+
+    .print-button:hover, .contact-button:hover {
+      background-color: #004d40;
+    }
+   
+    
+    /* Contact Button Styling */
+    .contact-button {
+      position: relative;
+      text-decoration: none;
+      font-size: 1.1rem;
+      color: #00796b;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 600;
+      padding: 10px 20px;
+      border-radius: 50px;
+      background-color: #fff;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      transition: background-color 0.3s ease;
+    }
+
+    .contact-button:hover {
+      background-color: #00796b;
+      color: white;
+    }
+
+    .contact-button i {
+      font-size: 1.3rem;
+    }
+
+    .contact-button:after {
+      content: 'If you have any issues with your booking, feel free to contact us.';
+      position: absolute;
+      bottom: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: #333;
+      color: rgb(255, 255, 255);
+      font-style: italic;
+      font-size: 0.9rem;
+      padding: 5px 10px;
+      border-radius: 5px;
+      visibility: hidden;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      white-space: nowrap;
+    }
+
+    .contact-button:hover:after {
+      visibility: visible;
+      opacity: 1;
+    }
+
     /* Responsive Styling */
     @media (max-width: 600px) {
       ul li {
         padding: 15px;
       }
+
       ul li p {
         font-size: 0.9rem;
       }
+
+      ul li img {
+        max-height: 200px;
+      }
+      .contact-button:after{
+        font-size: 8px;
+      }
     }
+
   </style>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 </head>
@@ -154,7 +256,6 @@ h2 i {
 
   <div class="flex-container">
     <h2><i class="fas fa-bookmark"></i> Your Bookings</h2>
-
   </div>
 
   <ul>
@@ -167,18 +268,35 @@ h2 i {
       <% userBookings.forEach(booking => { %>
         <li>
           <img src="data:<%= booking.room.image.contentType %>;base64,<%= booking.room.image.data.toString('base64') %>" alt="Room Image">
-          <p><strong>Booking ID: </strong> <%= booking._id %></p>
-          <p><strong>Room Number: </strong><%= booking.room?.roomNumber || 'Room details unavailable' %></p>
-          <p><strong>User Name:</strong> <%= booking.userName %></p>
-          <p><strong>User Email:</strong> <%= booking.email %></p>
-          <p><strong>Start Date:</strong> <%= new Date(booking.startDate).toDateString() %></p>
-          <p><strong>End Date: </strong><%= new Date(booking.endDate).toDateString() %></p>
-          <p><strong>Room Type:</strong> <%= booking.room.type %></p>
-          <p><strong>Price:</strong> ₹<%= booking.room.price %>/-</p>
-          <p><strong>Payment Status:</strong> <%= booking.paymentStatus %></p>
+          <p style="color: rgb(255, 0, 85); font-style: italic; font-weight: 600;"><strong>Booking ID: </strong> <%= booking._id %></p>
+          <p style="color: rgb(255, 0, 85); font-style: italic; font-weight: 600;"><strong>Room Number: </strong><%= booking.room?.roomNumber || 'Room details unavailable' %></p>
+          <p style="color: rgb(255, 0, 85); font-style: italic; font-weight: 600;"><strong>User Name:</strong> <%= booking.userName %></p>
+          <p style="color: rgb(255, 0, 85); font-style: italic; font-weight: 600;"><strong>User Email:</strong> <%= booking.email %></p>
+          <p style="color: rgb(255, 0, 85); font-style: italic; font-weight: 600;"><strong>Start Date:</strong> <%= new Date(booking.startDate).toDateString() %></p>
+          <p style="color: rgb(255, 0, 85); font-style: italic; font-weight: 600;"><strong>End Date: </strong><%= new Date(booking.endDate).toDateString() %></p>
+          <p style="color: rgb(255, 0, 85); font-style: italic; font-weight: 600;"><strong>Room Type:</strong> <%= booking.room.type %></p>
+          <p style="color: rgb(255, 0, 85); font-style: italic; font-weight: 600;"><strong>Price:</strong> ₹<%= booking.room.price %>/-</p>
+          <p style="color: rgb(255, 0, 85); font-style: italic; font-weight: 600;"><strong>Payment Status:</strong> <%= booking.paymentStatus %></p>
+         <!-- Print Button -->
+        <button class="print-button" onclick="prin()">
+          <i class="fas fa-print"></i> Print
+        </button>
+        
+        <!-- Contact Button -->
+      
+        <a class="contact-button" id="contact-button" href="/UserHome/#contact">
+          <i class="fas fa-envelope"></i> Contact
+        </a>
+        
         </li>
       <% }); %>
     <% } %>
   </ul>
+
+ <script>
+  function prin(){
+    window.print();
+  }
+ </script>
 </body>
 </html>

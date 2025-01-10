@@ -136,7 +136,7 @@ app.post('/signup', async (req, res) => {
     await newUser.save();
 
     res.render('login', {
-      message: 'Signup successful! Please log in.',
+      message: 'Signup successful! Please login.',
       messageType: 'success'
     });
   } catch (error) {
@@ -145,9 +145,9 @@ app.post('/signup', async (req, res) => {
       message: 'An error occurred during signup. Please try again.',
       messageType: 'error'
     });
-  }
+  } 
 });
- 
+  
 // GET /login
 app.get('/login', (req, res) => {
   res.render('login', { message: '', messageType: '' });
