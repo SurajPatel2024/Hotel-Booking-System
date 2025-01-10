@@ -242,7 +242,7 @@
 
     <% if (room.status === 'Available') { %>
         <h3>Are you sure you want to book this room?</h3>
-        <form action="/book-room/<%= room._id %>" method="POST" id="booking-form">
+        
             <!-- Existing form fields here... -->
             <form action="/book-room/<%= room._id %>" method="POST" id="booking-form">
                 <label for="userName">Name:</label>
@@ -359,6 +359,20 @@ function showPaymentOptions() {
     const paypalContainer = document.getElementById('paypal-button-container');
     const bookButton = document.getElementById('book-button');
 
+    var paymentMethodSelect = document.getElementById('paymentMethod');
+    var options = paymentMethodSelect.getElementsByTagName('option');
+    
+    // Get the selected value
+    var selectedOption = paymentMethodSelect.value;
+    
+    // Loop through options and hide the unselected one
+    for (var i = 0; i < options.length; i++) {
+        if (options[i].value && options[i].value !== selectedOption) {
+            options[i].style.display = 'none'; // Hide the unselected option
+        }
+    }
+
+
     if (paymentMethod === 'Online') {
         showPayPalButton(); // Show PayPal button if "Online" is selected
     } else {
@@ -366,8 +380,7 @@ function showPaymentOptions() {
         bookButton.style.display = 'block'; // Show "Book Now" button for Cash
     }
 
-    // Disable further changes to the payment method
-    paymentMethodContainer.querySelector('select').disabled = true;
+  
 
     // Optional: Display a message that the payment method cannot be changed
     displayPaymentAlert('Payment method selected: ' + paymentMethod, 'info');

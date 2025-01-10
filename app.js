@@ -682,7 +682,7 @@ app.post('/verify-captcha', (req, res) => {
 app.post('/book-room/:roomId', async (req, res) => {
   const roomId = req.params.roomId;
   const { userName, email, userContact, startDate, endDate, paymentMethod, captcha } = req.body;
-
+ 
   try {
       // Retrieve CAPTCHA from session
       const sessionCaptcha = req.session.captcha;
