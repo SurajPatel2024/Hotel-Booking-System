@@ -136,7 +136,7 @@ app.post('/signup', async (req, res) => {
     await newUser.save();
 
     res.render('login', {
-      message: 'Signup successful! Please login.',
+      message: 'Signup successful! Please log in.',
       messageType: 'success'
     });
   } catch (error) {
@@ -145,9 +145,9 @@ app.post('/signup', async (req, res) => {
       message: 'An error occurred during signup. Please try again.',
       messageType: 'error'
     });
-  } 
+  }
 });
-  
+ 
 // GET /login
 app.get('/login', (req, res) => {
   res.render('login', { message: '', messageType: '' });
@@ -374,7 +374,18 @@ app.post('/admin/login', async (req, res) => {
 
     // Set token in cookies
     res.cookie('jwtToken', token, { httpOnly: true, maxAge: 3600000 });
-    res.redirect('/admin/dashboard');
+    const rooms = await Room.find();
+    const bookings = await Booking.find();
+    if(username=="Suraj"){
+      let a = 'Suraj'
+      res.render('admin/dashboard', { rooms, bookings,a});
+    }else{
+      let a = null;
+      res.render('admin/dashboard', { rooms, bookings, a: a });
+
+    }
+     // Fetch one admin
+    
   } catch (err) {
     console.error('Error during login:', err);
     res.render('admin/login', {
@@ -432,12 +443,36 @@ app.get('/admin/dashboard', isLoggedIn, async (req, res) => {
   try {
     const rooms = await Room.find();
     const bookings = await Booking.find();
-    res.render('admin/dashboard', { rooms, bookings });
+     // Fetch one admin
+     let a = null;
+     res.render('admin/dashboard', { rooms, bookings, a: a });
+     
+    
   } catch (err) {
     console.error(err);
-    res.status(500).send('Error fetching data');
+    res.status(500).send('Error fetching data'); 
   }
 });
+app.get('/viewalladmin', isLoggedIn, async (req, res) => {
+  try { 
+ 
+    const admin = await Admin.find();
+    res.render('admin/viewalladmin', {  admins: admin  });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error fetching data'); 
+  }
+}); 
+app.post('/viewadmin/delete/:id', async (req, res) => {
+  try { 
+    await Admin.findByIdAndDelete(req.params.id);
+    res.redirect('/viewalladmin');
+  } catch (err) {
+    console.log(err);
+  }
+});
+
+ 
 
 // Add New Room
 app.get('/admin/rooms/new', isLoggedIn, (req, res) => {

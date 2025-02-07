@@ -205,9 +205,24 @@
     </style>
 </head>
 <body>
+   
+          
+       
     <div class="container">
-        <h1>Admin Dashboard</h1>
+        <% if (a) { %>
+        <p>Welcome! <span style="font-style: italic; color: #007BFF; font-weight: 600; font-size: 20px;"> <%= a %></span></p> 
+            <h1>Super Admin Dashboard</h1>
+          <% } else { %>
+            <h1>Admin Dashboard</h1>
+          <% } %>
+        
         <a href="/view-bookings" class="btn-custom nav-link"><i class="fas fa-list"></i> View All Bookings</a>
+        <% if (a) { %>
+           
+            <a href="/viewalladmin" class="btn-custom nav-link"><i class="fas fa-list"></i> View All Admins</a>
+          <% } else { %>
+             
+          <% } %>
         <a href="/admin/register" class="btn-custom nav-link"><i class="fas fa-user-plus"></i> Add New Admin</a>
         <a href="/admin/rooms/new" class="btn-custom nav-link"><i class="fas fa-plus-circle"></i> Add New Room</a>
         <a href="/admin/messages" class="btn-custom nav-link"><i class="fas fa-envelope"></i> Messages</a>

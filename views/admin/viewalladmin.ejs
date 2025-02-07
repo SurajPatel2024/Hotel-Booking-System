@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    /* General Page Styling */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 20px;
+    text-align: center;
+}
+
+/* Heading Styling */
+h1 {
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* Admin List Styling */
+ul {
+    list-style-type: none;
+    padding: 0;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+li {
+    background: white;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Form & Button Styling */
+form {
+    display: inline;
+}
+
+button {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease-in-out;
+}
+
+button:hover {
+    background-color: #c0392b;
+}
+
+</style>
+<body>
+    <h1>Admin Usernames:</h1>
+        <ul>
+          <% admins.forEach(admin => { %>
+            <% if (admin.username !== "Suraj") { %>
+              <li><%= admin.username %></li>
+              <form action="/viewadmin/delete/<%= admin._id %>" method="post">
+                  <button>Delete</button>
+              </form>
+            <% } %>
+          <% }); %>
+        </ul>
+</body>
+</html>
