@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Booking</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 </head>
 <style>
     /* Reset some default styles */
@@ -78,21 +79,12 @@ button[type="submit"]:hover {
     background-color: #0056b3;
 }
 
-a {
-    display: block;
-    text-align: center;
-    margin-top: 20px;
-    color: #007BFF;
-    text-decoration: none;
-}
-
-a:hover {
-    text-decoration: underline;
-}
+ 
 
 </style>
+ 
 <body>
-    <h1>Edit Booking Details</h1>
+    <h1><i class="fa-solid fa-pen-to-square"></i> Edit Booking Details</h1>
 
     <form action="/admin/bookings/edit/<%= booking._id %>" method="POST">
         <p><strong>Room Number:</strong>
@@ -132,6 +124,6 @@ a:hover {
     </form>
     
     <br>
-    <a href="/view-bookings">Back to Booking List</a>
+ 
 </body>
 </html>

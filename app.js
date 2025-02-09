@@ -452,7 +452,7 @@ app.get('/admin/dashboard', isLoggedIn, async (req, res) => {
     console.error(err);
     res.status(500).send('Error fetching data'); 
   }
-});
+}); 
 app.get('/viewalladmin', isLoggedIn, async (req, res) => {
   try { 
  
