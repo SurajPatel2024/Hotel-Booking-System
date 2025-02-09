@@ -12,7 +12,50 @@
  
 <body>
     <style>
-       
+    .show-btn {
+    background-color: #007BFF; /* Blue color */
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px; /* Space between text and icon */
+    transition: all 0.3s ease-in-out;
+    width: fit-content;
+    margin: 10px auto; /* Center align */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.show-btn i {
+  color: white;
+    font-size: 18px;
+    transition: transform 0.3s ease-in-out;
+}
+
+.show-btn:hover {
+    background-color: #0056b3; /* Darker blue */
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+    transform: scale(1.05);
+}
+
+.show-btn:focus {
+    outline: none;
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.5);
+}
+
+/* Rotating icon when expanded */
+.show-btn.active i {
+    transform: rotate(180deg);
+}
+ 
+ 
+
+
        #Menu{
             display: none;
             
@@ -234,32 +277,104 @@
         <option value="Family">Family</option>
         <option value="Accessible">Accessible</option>
     </select>
+  
   </div>
+  <script>
+    function toggleText(button) {
+        var roomItem = button.closest(".room-item");
+        var moreText = roomItem.querySelector(".more-text");
+        var icon = button.querySelector("i");
+  
+        if (moreText.style.display === "none" || moreText.style.display === "") {
+            moreText.style.display = "block";
+            button.innerHTML = 'Show Less <i class="fas fa-chevron-up"></i>';
+        } else {
+            moreText.style.display = "none";
+            button.innerHTML = 'Show More <i class="fa-solid fa-angle-down"></i>';
+        }
+    }
+  </script>
+  
   <ul class="room-list">
       <% rooms.forEach(room => { %>
       <li class="room-item" data-type="<%= room.type %>">
           <% if (room.image && room.image.data) { %>
-          <img src="data:<%= room.image.contentType %>;base64,<%= room.image.data.toString('base64') %>" alt="Room Image" width="500" >
+          <img src="data:<%= room.image.contentType %>;base64,<%= room.image.data.toString('base64') %>" alt="Room Image" width="500">
           <% } else { %>
           <p>No image available</p>
           <% } %>
+  
           <div class="room-info">
-              <strong>Room <%= room.roomNumber %></strong> - Type: <%= room.type %> <br> Price: ₹<%= room.price %>/-
+              <strong>Room <%= room.roomNumber %></strong> - Type: <%= room.type %> <br> 
+              <i class="fas fa-rupee-sign"></i> Price: ₹<%= room.price %>/-
           </div>
+  
           <div class="room-description">
               <p><%= room.description %></p>
+              <div class="more-text" id="moreText" style="display: none;">
+                  <% if (room.type == 'Single') { %>
+                      <h3><i class="fas fa-user"></i> Single Room Features:</h3>
+                      <ul>
+                          <li>Cozy and private</li>
+                          <li><i class="fas fa-wifi"></i> Free WiFi</li>
+                          <li><i class="fas fa-snowflake"></i> Air Conditioning</li>
+                      </ul>
+                  <% } else if (room.type == 'Double') { %>
+                      <h3><i class="fas fa-users"></i> Double Room Features:</h3>
+                      <ul>
+                          <li>Spacious with king-size bed</li>
+                          <li>Modern amenities</li>
+                          <li><i class="fas fa-umbrella-beach"></i> Private balcony</li>
+                      </ul>
+                  <% } else if (room.type == 'Suite') { %>
+                      <h3><i class="fas fa-star"></i> Suite Features:</h3>
+                      <ul>
+                          <li>Premium luxury experience</li>
+                          <li><i class="fas fa-couch"></i> Separate living area</li>
+                          <li><i class="fas fa-tv"></i> High-end entertainment system</li>
+                      </ul>
+                  <% } else if (room.type == 'Penthouse') { %>
+                      <h3><i class="fas fa-city"></i> Penthouse Features:</h3>
+                      <ul>
+                          <li><i class="fas fa-eye"></i> Breathtaking city views</li>
+                          <li><i class="fas fa-hot-tub"></i> Private Jacuzzi</li>
+                          <li><i class="fas fa-utensils"></i> Personalized dining experience</li>
+                      </ul>
+                  <% } else if (room.type == 'Dormitory') { %>
+                      <h3><i class="fas fa-bed"></i> Dormitory Features:</h3>
+                      <ul>
+                          <li>Affordable group accommodation</li>
+                          <li><i class="fas fa-lock"></i> Secure lockers</li>
+                          <li><i class="fas fa-users"></i> Shared lounge area</li>
+                      </ul>
+                  <% } else { %>
+                      <h3><i class="fas fa-home"></i> General Room Features:</h3>
+                      <ul>
+                          <li>Comfortable and well-furnished</li>
+                          <li><i class="fas fa-wifi"></i> Free WiFi</li>
+                          <li><i class="fas fa-concierge-bell"></i> 24/7 room service</li>
+                      </ul>
+                  <% } %>
+              </div>
+              <button class="show-btn"  onclick="toggleText(this)">Show More <i class="fa-solid fa-angle-down"></i></button>
           </div>
+  
           <% if (room.status === 'Available') { %>
-          <span class="room-status available"><%= room.status %></span>
+          <span class="room-status available"><i class="fas fa-check-circle"></i> <%= room.status %></span>
           <a href="/book-room/<%= room._id %>" class="book-btn">
               <i class="fas fa-bed"></i> Book Room
           </a>
           <% } else { %>
-          <span class="room-status booked"><%= room.status %></span>
+          <span class="room-status booked"><i class="fas fa-times-circle"></i> <%= room.status %></span>
           <% } %>
       </li>
       <% }) %>
   </ul>
+  
+  <!-- Font Awesome -->
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+  
+
 </div>
 
 <!-- JavaScript for Filtering -->
@@ -345,6 +460,7 @@ function showSlides() {
 }
 
 </script>
+ 
  
  
 </html>

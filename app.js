@@ -915,7 +915,7 @@ app.post('/admin/messages/:id', isLoggedIn, async (req, res) => {
     console.error('Error deleting message:', err);
     res.status(500).send('Server error');
   }
-});
+}); 
 
 
 const PORT = process.env.PORT || 3000;
