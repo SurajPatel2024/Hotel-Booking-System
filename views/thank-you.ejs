@@ -6,113 +6,111 @@
     <title>Thank You - Taj Hotel</title>
     <style>
         body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f9f9f9;
-    color: #333;
-    margin: 0;
-    padding: 0;
-    line-height: 1.6;
-}
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
 
-header {
-    background-color: #00796b; /* Darker green for a premium feel */
-    color: #fff;
-    text-align: center;
-    padding: 20px 0;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
+        header {
+            background-color: #00796b;
+            color: #fff;
+            text-align: center;
+            padding: 20px 0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
 
-header h1 {
-    margin: 0;
-    font-size: 1.8em;
-}
+        header h1 {
+            margin: 0;
+            font-size: 1.8em;
+        }
 
-.container {
-    width: 90%;
-    max-width: 600px;
-    margin: 20px auto;
-    background-color: #fff;
-    padding: 25px;
-    border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-    border-top: 5px solid #00796b;
-}
+        .container {
+            width: 90%;
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            border-top: 5px solid #00796b;
+        }
 
-h2 {
-    color: #00796b;
-    margin-bottom: 15px;
-    font-size: 1.5em;
-    border-bottom: 2px solid #eee;
-    padding-bottom: 5px;
-}
+        h2 {
+            color: #00796b;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 5px;
+        }
 
-p {
-    font-size: 1em;
-    margin: 12px 0;
-    color: #555;
-}
+        p {
+            font-size: 1em;
+            margin: 12px 0;
+            color: #555;
+        }
 
-p strong {
-    color: #00796b;
-}
+        p strong {
+            color: #00796b;
+        }
 
-.button {
-    background-color: #00796b;
-    color: #fff;
-    padding: 12px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 1em;
-    text-decoration: none;
-    margin-right: 10px;
-    display: inline-block;
-}
+        .button {
+            background-color: #00796b;
+            color: #fff;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            text-decoration: none;
+            margin-right: 10px;
+            display: inline-block;
+        }
 
-.button:hover {
-    background-color: #005f56;
-}
+        .button:hover {
+            background-color: #005f56;
+        }
 
-.button a {
-    color: #fff;
-    text-decoration: none;
-}
+        .button a {
+            color: #fff;
+            text-decoration: none;
+        }
 
-.button a:hover {
-    background-color: #005f56;
-}
+        .button a:hover {
+            background-color: #005f56;
+        }
 
-/* Improve printing styles */
-@media print {
-    body {
-        background-color: #fff;
-        color: #000;
-        font-size: 1em;
-    }
+        /* Improve printing styles */
+        @media print {
+            body {
+                background-color: #fff;
+                color: #000;
+                font-size: 1em;
+            }
 
-    header {
-        background-color: #00796b;
-        color: #fff;
-        box-shadow: none;
-    }
+            header {
+                background-color: #00796b;
+                color: #fff;
+                box-shadow: none;
+            }
 
-    .container {
-        box-shadow: none;
-        border-radius: 0;
-        width: 100%;
-    }
+            .container {
+                box-shadow: none;
+                border-radius: 0;
+                width: 100%;
+            }
 
-    .button {
-        display: none;
-    }
+            .button {
+                display: none;
+            }
 
-    p {
-        font-size: 1.2em;
-    }
-}
-
+            p {
+                font-size: 1.2em;
+            }
+        }
     </style>
-
 </head>
 <body>
 
@@ -128,15 +126,22 @@ p strong {
     <p><strong>Email:</strong> <%= booking.email %></p>
     <p><strong>Contact:</strong> <%= booking.userContact %></p>
     <p><strong>Room Number:</strong> <%= room.roomNumber %></p>
-    <p><strong>Price:</strong>  ₹<%= room.price %>/-</p>
-    <p><strong>Start Date:</strong> <%= new Date(booking.startDate).toDateString() %></p>
-    <p><strong>End Date:</strong> <%= new Date(booking.endDate).toDateString() %></p>
-    <p><strong>Payment Status:</strong> <%= booking.paymentStatus %></p>
- 
-    
-    <p>We have received your booking request. Our team will confirm your reservation shortly.</p>
+    <p><strong>Price Per Day:</strong> ₹<%= room.price %>/-</p>
 
- 
+    <%  
+        const startDate = new Date(booking.startDate);
+        const endDate = new Date(booking.endDate);
+        const days = Math.max(1, Math.ceil((endDate - startDate) / (1000 * 60 * 60 * 24))); // At least 1 day
+        const totalPrice = days * room.price; 
+    %>
+
+    <p><strong>Start Date:</strong> <%= startDate.toDateString() %></p>
+    <p><strong>End Date:</strong> <%= endDate.toDateString() %></p>
+    <p><strong>Number of Days:</strong> <%= days %></p>
+    <p><strong>Total Price:</strong> ₹<%= totalPrice %>/-</p>
+    <p><strong>Payment Status:</strong> <%= booking.paymentStatus %></p>
+
+    <p>We have received your booking request. Our team will confirm your reservation shortly.</p>
 
     <!-- Print Button --> 
     <button class="button" onclick="window.print()">Print Booking</button>

@@ -260,37 +260,44 @@
 
   <ul>
     <% 
-      let userBookings = bookings.filter(booking => booking.email === user.email); 
-      if (userBookings.length === 0) { 
+    let userBookings = bookings.filter(booking => booking.email === user.email); 
+    if (userBookings.length === 0) { 
+  %>
+    <p>No bookings found.</p>
+  <% } else { %>
+    <% userBookings.forEach(booking => { 
+      let startDate = new Date(booking.startDate);
+      let endDate = new Date(booking.endDate);
+      let numberOfDays = Math.ceil((endDate - startDate) / (1000 * 60 * 60 * 24)); 
+      let totalPrice = numberOfDays * booking.room.price;
     %>
-      <p>No bookings found.</p>
-    <% } else { %>
-      <% userBookings.forEach(booking => { %>
-        <li>
-          <img src="data:<%= booking.room.image.contentType %>;base64,<%= booking.room.image.data.toString('base64') %>" alt="Room Image">
-          <p style="color: rgb(255, 0, 85); font-style: italic; font-weight: 600;"><strong>Booking ID: </strong> <%= booking._id %></p>
-          <p style="color: rgb(255, 0, 85); font-style: italic; font-weight: 600;"><strong>Room Number: </strong><%= booking.room?.roomNumber || 'Room details unavailable' %></p>
-          <p style="color: rgb(255, 0, 85); font-style: italic; font-weight: 600;"><strong>User Name:</strong> <%= booking.userName %></p>
-          <p style="color: rgb(255, 0, 85); font-style: italic; font-weight: 600;"><strong>User Email:</strong> <%= booking.email %></p>
-          <p style="color: rgb(255, 0, 85); font-style: italic; font-weight: 600;"><strong>Start Date:</strong> <%= new Date(booking.startDate).toDateString() %></p>
-          <p style="color: rgb(255, 0, 85); font-style: italic; font-weight: 600;"><strong>End Date: </strong><%= new Date(booking.endDate).toDateString() %></p>
-          <p style="color: rgb(255, 0, 85); font-style: italic; font-weight: 600;"><strong>Room Type:</strong> <%= booking.room.type %></p>
-          <p style="color: rgb(255, 0, 85); font-style: italic; font-weight: 600;"><strong>Price:</strong> ₹<%= booking.room.price %>/-</p>
-          <p style="color: rgb(255, 0, 85); font-style: italic; font-weight: 600;"><strong>Payment Status:</strong> <%= booking.paymentStatus %></p>
-         <!-- Print Button -->
-        <button class="print-button" onclick="prin()">
+      <li>
+        <img src="data:<%= booking.room.image.contentType %>;base64,<%= booking.room.image.data.toString('base64') %>" alt="Room Image">
+        <p style="color: rgb(255, 0, 85); font-style: italic; font-weight: 600;"><strong>Booking ID: </strong> <%= booking._id %></p>
+        <p style="color: rgb(255, 0, 85); font-style: italic; font-weight: 600;"><strong>Room Number: </strong><%= booking.room?.roomNumber || 'Room details unavailable' %></p>
+        <p style="color: rgb(255, 0, 85); font-style: italic; font-weight: 600;"><strong>User Name:</strong> <%= booking.userName %></p>
+        <p style="color: rgb(255, 0, 85); font-style: italic; font-weight: 600;"><strong>User Email:</strong> <%= booking.email %></p>
+        <p style="color: rgb(255, 0, 85); font-style: italic; font-weight: 600;"><strong>Start Date:</strong> <%= startDate.toDateString() %></p>
+        <p style="color: rgb(255, 0, 85); font-style: italic; font-weight: 600;"><strong>End Date: </strong><%= endDate.toDateString() %></p>
+        <p style="color: rgb(255, 0, 85); font-style: italic; font-weight: 600;"><strong>Room Type:</strong> <%= booking.room.type %></p>
+        <p style="color: rgb(255, 0, 85); font-style: italic; font-weight: 600;"><strong>Price per day:</strong> ₹<%= booking.room.price %>/-</p>
+        <p style="color: rgb(255, 0, 85); font-style: italic; font-weight: 600;"><strong>Number of Days:</strong> <%= numberOfDays %> days</p>
+        <p style="color: rgb(255, 0, 85); font-style: italic; font-weight: 600;"><strong>Total Price:</strong> ₹<%= totalPrice %>/-</p>
+        <p style="color: rgb(255, 0, 85); font-style: italic; font-weight: 600;"><strong>Payment Status:</strong> <%= booking.paymentStatus %></p>
+        
+        <!-- Print Button -->
+        <button class="print-button" onclick="window.print()">
           <i class="fas fa-print"></i> Print
         </button>
         
         <!-- Contact Button -->
-      
         <a class="contact-button" id="contact-button" href="/UserHome/#contact">
           <i class="fas fa-envelope"></i> Contact
         </a>
-        
-        </li>
-      <% }); %>
-    <% } %>
+      </li>
+    <% }); %>
+  <% } %>
+  
   </ul>
 
  <script>

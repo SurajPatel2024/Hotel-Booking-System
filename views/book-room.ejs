@@ -237,7 +237,8 @@
     <h2>Room Details</h2>
     <p><strong>Room Number:</strong> <%= room.roomNumber %></p>
     <p><strong>Type:</strong> <%= room.type %></p>
-    <p><strong>Price:</strong>  ₹<%= room.price %>/-</p>
+    <p><strong>Price per day:</strong> ₹<span id="pricePerDay"><%= room.price %>/-</span></p>
+    <p><strong>Total Price:</strong> ₹<span id="totalPrice"><%= room.price %></span>/-</p>
     <p><strong>Description:</strong> <%= room.description %></p>
 
     <% if (room.status === 'Available') { %>
@@ -386,54 +387,8 @@ function showPaymentOptions() {
     displayPaymentAlert('Payment method selected: ' + paymentMethod, 'info');
 }
 
-function showPayPalButton() {
-    const roomPrice = `<%= room.price %>`; // Set room price dynamically from backend
-    const paypalContainer = document.getElementById('paypal-button-container');
-
-    // Clear previous PayPal button if it exists
-    paypalContainer.innerHTML = '';
-
-    // Show PayPal button container
-    paypalContainer.style.display = 'block';
-
-    // Render PayPal button
-    paypal.Buttons({
-        createOrder: function (data, actions) {
-            return actions.order.create({
-                purchase_units: [{
-                    amount: {
-                        value: roomPrice // Replace with dynamic value from backend
-                    }
-                }]
-            });
-        },
-        onApprove: function (data, actions) {
-            return actions.order.capture().then(function (details) {
-                // Hide PayPal button after successful payment
-                paypalContainer.style.display = 'none';
-
-                // Show the "Book Now" button
-                document.getElementById('book-button').style.display = 'block';
-
-                // Display custom payment success alert
-                displayPaymentAlert(
-                    'Payment successful! Thank you, ' + details.payer.name.given_name,
-                    'success'
-                );
-
-                // Disable further changes to the payment method
-                document.getElementById('paymentMethod').disabled = true;
-            });
-        },
-        onCancel: function (data) {
-            displayPaymentAlert('Payment was cancelled.', 'info');
-        },
-        onError: function (err) {
-            console.error('Error in payment:', err);
-            displayPaymentAlert('An error occurred during the payment process.', 'error');
-        }
-    }).render('#paypal-button-container');
-}
+ 
+     
 
 function displayPaymentAlert(message, type) {
     const alertBox = document.getElementById('payment-alert');
@@ -458,7 +413,8 @@ function displayPaymentAlert(message, type) {
  
 
     function showPayPalButton() {
-    const roomPrice = `<%= room.price %>`; // Set room price dynamically from backend
+        const tprice = document.getElementById('totalPrice').innerText;
+        const roomPrice =  tprice; // Set room price dynamically from backend
     const paypalContainer = document.getElementById('paypal-button-container');
 
     // Clear previous PayPal button if it exists
@@ -556,6 +512,30 @@ function displayPaymentAlert(message, type) {
     });
 </script>
 
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const today = new Date().toISOString().split("T")[0];
+        document.getElementById("startDate").setAttribute("min", today);
+        document.getElementById("endDate").setAttribute("min", today);
+    });
+
+    function calculateTotalPrice() {
+        const startDate = new Date(document.getElementById("startDate").value);
+        const endDate = new Date(document.getElementById("endDate").value);
+        const pricePerDay = parseFloat(document.getElementById("pricePerDay").innerText);
+        
+        if (!isNaN(startDate) && !isNaN(endDate) && endDate >= startDate) {
+            const timeDiff = endDate.getTime() - startDate.getTime();
+            const days = Math.ceil(timeDiff / (1000 * 3600 * 24));
+            document.getElementById("totalPrice").innerText = pricePerDay * days;
+        } else {
+            document.getElementById("totalPrice").innerText = "0";
+        }
+    }
+
+    document.getElementById("startDate").addEventListener("change", calculateTotalPrice);
+    document.getElementById("endDate").addEventListener("change", calculateTotalPrice);
+</script>
 
 </body>
 </html>

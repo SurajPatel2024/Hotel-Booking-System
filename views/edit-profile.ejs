@@ -219,6 +219,107 @@ footer p {
     }
 }
 
+
+/* delete btn */
+
+   /* Modal Background */
+   .modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+}
+
+/* Modal Content Box */
+.modal-content {
+    background: #fff;
+    padding: 20px;
+    width: 90%;
+    max-width: 400px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+/* Modal Heading */
+.modal-content h2 {
+    margin: 0 0 10px;
+    font-size: 22px;
+    color: #d9534f;
+}
+
+/* Modal Text */
+.modal-content p {
+    font-size: 16px;
+    color: #555;
+    margin-bottom: 20px;
+}
+
+/* Buttons */
+.modal-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.confirm-btn {
+    background-color: #d9534f;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.confirm-btn:hover {
+    background-color: #c9302c;
+}
+
+.cancel-btn {
+    background-color: #5bc0de;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.cancel-btn:hover {
+    background-color: #31b0d5;
+}
+
+/* Delete Account Button */
+.delete-btn {
+    background-color: #d9534f;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    display: block;
+    margin: 20px auto;
+}
+
+.delete-btn:hover {
+    background-color: #c9302c;
+}
+
+/* Fade In Animation */
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+}
+
 </style>
 <body>
     <nav>
@@ -248,8 +349,64 @@ footer p {
                 <small id="emailError" style="color: red; display: none;">Please enter a valid email address.</small>
             </div>
             <button type="submit">Save Changes</button>
+
         </form>
+
     </div>
+            <!-- Delete Account Button -->
+<form id="deleteForm" action="/delete-account" method="POST">
+    <button type="button" class="delete-btn" id="deleteAccountBtn">Delete Account</button>
+</form>
+
+<!-- Custom Delete Confirmation Modal -->
+<div id="deleteModal" class="modal">
+    <div class="modal-content">
+        <h2>Delete Account</h2>
+        <p>Are you sure you want to delete your account? This action cannot be undone.</p>
+        <div class="modal-buttons">
+            <button id="confirmDelete" class="confirm-btn">Yes, Delete</button>
+            <button id="cancelDelete" class="cancel-btn">Cancel</button>
+        </div>
+    </div>
+</div>
+
+
+ 
+    
+   <script>
+    document.addEventListener("DOMContentLoaded", function () {
+    const deleteModal = document.getElementById("deleteModal");
+    const deleteAccountBtn = document.getElementById("deleteAccountBtn");
+    const confirmDelete = document.getElementById("confirmDelete");
+    const cancelDelete = document.getElementById("cancelDelete");
+    const deleteForm = document.getElementById("deleteForm");
+
+    // Show modal when delete button is clicked
+    deleteAccountBtn.addEventListener("click", function () {
+        deleteModal.style.display = "flex";
+    });
+
+    // Confirm delete action
+    confirmDelete.addEventListener("click", function () {
+        deleteForm.submit(); // Submit the form to delete the account
+    });
+
+    // Cancel delete action
+    cancelDelete.addEventListener("click", function () {
+        deleteModal.style.display = "none";
+    });
+
+    // Close modal if clicked outside content
+    window.addEventListener("click", function (event) {
+        if (event.target === deleteModal) {
+            deleteModal.style.display = "none";
+        }
+    });
+});
+
+   </script>
+    
+
 
     <div id="alertBox" class="alert-container">
         <i class="fas fa-check-circle"></i> Changes Saved Successfully!

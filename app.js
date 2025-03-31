@@ -834,8 +834,8 @@ app.get('/thank-you/:bookingId', async (req, res) => {
     console.error('Error fetching booking details:', error);
     res.status(500).send('Internal Server Error');
   }
-});
- 
+}); 
+  
 // User Bookings Route
 app.get('/user-bookings', auth, async (req, res) => {
   try {
@@ -917,6 +917,37 @@ app.post('/admin/messages/:id', isLoggedIn, async (req, res) => {
   }
 }); 
 
+
+
+//delete user account
+app.post('/delete-account', auth, async (req, res) => {
+  try {
+      const userId = req.userId; // Get the logged-in user's ID
+
+      // Find user before deleting to get username
+      const user = await User.findById(userId);
+      if (!user) {
+          return res.status(404).send('User not found');
+      }
+
+      // Step 1: Delete the user from the User collection
+      await User.findByIdAndDelete(userId);
+
+       
+      
+      // Step 3: Delete all user bookings (if applicable)
+      await Booking.deleteMany({ userId });
+  
+          
+
+      // Destroy session and logout
+       res.redirect('/login'); // Redirect to login after deletion
+       
+  } catch (error) {
+      console.error('Error deleting user:', error);
+      res.status(500).send('Error deleting user data');
+  }
+});
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

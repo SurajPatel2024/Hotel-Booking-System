@@ -65,20 +65,52 @@
     <a href="#" class="print-btn" onclick="printBookingDetails()">
         <i class="fas fa-print"></i> Print Booking Details
     </a>
-
+   
     <div class="details">
         <h1>Booking Details</h1>
-        <p style="font-style: italic; font-weight: 600;"><strong style="color: deeppink;">Booking ID:</strong> <%= booking._id %></p>
-        <p style="font-style: italic; font-weight: 600;"><strong style="color: deeppink;">Room Number:</strong> <%= booking.room.roomNumber %></p>
-        <p style="font-style: italic; font-weight: 600;"><strong style="color: deeppink;">User Name:</strong> <%= booking.userName %></p>
-        <p style="font-style: italic; font-weight: 600;"><strong style="color: deeppink;">User Email:</strong> <%= booking.email %></p>
-        <p style="font-style: italic; font-weight: 600;"><strong style="color: deeppink;">Contact:</strong> <%= booking.userContact %></p>
-        <p style="font-style: italic; font-weight: 600;"><strong style="color: deeppink;">Start Date:</strong> <%= new Date(booking.startDate).toLocaleDateString() %></p>
-        <p style="font-style: italic; font-weight: 600;"><strong style="color: deeppink;">End Date:</strong> <%= new Date(booking.endDate).toLocaleDateString() %></p>
-        <p style="font-style: italic; font-weight: 600;"><strong style="color: deeppink;">Price:</strong> ₹<%= booking.room.price %>/-</p>
-        <p style="font-style: italic; font-weight: 600;"><strong style="color: deeppink;">Payment Status:</strong> <%= booking.paymentStatus %></p>
-        <!-- You can add more details as necessary -->
+        <p style="font-style: italic; font-weight: 600;">
+            <strong style="color: deeppink;">Booking ID:</strong> <%= booking._id %>
+        </p>
+        <p style="font-style: italic; font-weight: 600;">
+            <strong style="color: deeppink;">Room Number:</strong> <%= booking.room.roomNumber %>
+        </p>
+        <p style="font-style: italic; font-weight: 600;">
+            <strong style="color: deeppink;">User Name:</strong> <%= booking.userName %>
+        </p>
+        <p style="font-style: italic; font-weight: 600;">
+            <strong style="color: deeppink;">User Email:</strong> <%= booking.email %>
+        </p>
+        <p style="font-style: italic; font-weight: 600;">
+            <strong style="color: deeppink;">Contact:</strong> <%= booking.userContact %>
+        </p>
+        <p style="font-style: italic; font-weight: 600;">
+            <strong style="color: deeppink;">Start Date:</strong> <%= new Date(booking.startDate).toLocaleDateString() %>
+        </p>
+        <p style="font-style: italic; font-weight: 600;">
+            <strong style="color: deeppink;">End Date:</strong> <%= new Date(booking.endDate).toLocaleDateString() %>
+        </p>
+        <p style="font-style: italic; font-weight: 600;">
+            <strong style="color: deeppink;">Price per Day:</strong> ₹<%= booking.room.price %>/-
+        </p>
+        
+        <% 
+            let startDate = new Date(booking.startDate);
+            let endDate = new Date(booking.endDate);
+            let numberOfDays = Math.ceil((endDate - startDate) / (1000 * 60 * 60 * 24));
+            let totalPrice = numberOfDays * booking.room.price;
+        %>
+    
+        <p style="font-style: italic; font-weight: 600;">
+            <strong style="color: deeppink;">Number of Days:</strong> <%= numberOfDays %> days
+        </p>
+        <p style="font-style: italic; font-weight: 600;">
+            <strong style="color: deeppink;">Total Price:</strong> ₹<%= totalPrice %>/-
+        </p>
+        <p style="font-style: italic; font-weight: 600;">
+            <strong style="color: deeppink;">Payment Status:</strong> <%= booking.paymentStatus %>
+        </p>
     </div>
+    
 
     <script>
         // Function to trigger the print dialog with watermark
