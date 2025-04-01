@@ -6,7 +6,51 @@
     <title>Add New Room</title>
     <link rel="stylesheet" href="/styles.css"> <!-- External CSS File -->
     <style>
-        /* General Reset */
+           .room-number{
+        display: none;
+    }
+    #messageforroomno{
+        color: red;
+        display: none;
+    }
+    
+    /* Alert Box Styling */
+.alert-box {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #ff4d4d; /* Red for error */
+    color: white;
+    padding: 15px 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    font-size: 16px;
+    font-weight: bold;
+    display: none;
+    z-index: 1000;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+/* Close Button */
+.alert-box .close-btn {
+    margin-left: 15px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+/* Fade In Animation */
+@keyframes fadeIn {
+    from { opacity: 0; top: 10px; }
+    to { opacity: 1; top: 20px; }
+}
+
+/* Fade Out Animation */
+@keyframes fadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
+}
+
         * {
             margin: 0;
             padding: 0;
@@ -100,15 +144,25 @@
     </style>
 </head>
 <body>
+    <div id="customAlert" class="alert-box">
+        <span id="alertMessage"></span>
+        <span class="close-btn" onclick="hideAlert()">✖</span>
+    </div>
     <div class="form-container">
+    
+        <% rooms.forEach(room => { %>
+            <p class="room-number"><%= room.roomNumber %></p>
+        <% }); %>
+       
         <h1>Add New Room</h1>
         <form action="/admin/rooms/new" method="POST" enctype="multipart/form-data">
             <!-- Room Number -->
             <div class="form-group">
                 <label for="roomNumber">Room Number:</label>
-                <input type="number" name="roomNumber" id="roomNumber" required>
+                <input type="number" name="roomNumber" id="roomNumber" oninput="checkRoomNumber()" oninput="a()" required>
             </div>
-
+            <p id='messageforroomno'>🚫This Room Number is already taken! Please enter another Room Number</p>
+           
             <!-- Room Type -->
             <div class="form-group">
                 <label for="type">Room Type:</label>
@@ -189,7 +243,62 @@
         }
 
         // Call function to initialize description field based on the default selection
-        window.onload = generateDescription;
+        function showAlert(message) {
+        let alertBox = document.getElementById("customAlert");
+        let alertMessage = document.getElementById("alertMessage");
+
+        alertMessage.innerText = message;
+        alertBox.style.display = "block"; // Show the alert
+        alertBox.style.animation = "fadeIn 0.5s ease-in-out"; 
+
+        // Hide after 2 seconds automatically
+        setTimeout(() => {
+            hideAlert();
+        }, 2000);
+    }
+
+    function hideAlert() {
+        let alertBox = document.getElementById("customAlert");
+        alertBox.style.animation = "fadeOut 0.5s ease-in-out"; 
+        setTimeout(() => { alertBox.style.display = "none"; }, 500);
+    }
+
+    window.onload = function() {
+        generateDescription(); // Your existing function
+
+        let message = "<%= message %>"; // Get message from EJS
+        if (message.trim() !== "") {
+            showAlert(message); // Show custom alert
+        }
+    };
+
+
+
+         
+    // Collect all room numbers from the `<p>` elements
+        const existingRooms = Array.from(document.querySelectorAll('.room-number'))
+                              .map(p => p.textContent.trim());
+
+    console.log(existingRooms); // Debugging: Check room numbers in the console
+
+    function checkRoomNumber(event) {
+        let enteredRoomNumber = document.getElementById('roomNumber').value;
+
+        if (existingRooms.includes(enteredRoomNumber)) {
+            let message = document.getElementById('messageforroomno');
+            message.style.display = 'block'; 
+            
+             setTimeout(() => {
+                message.style.display = 'none';
+            }, 2000);
+            event.preventDefault();
+        }
+    }
+
+    document.getElementById('roomForm').addEventListener('submit', checkRoomNumber);
+
+    
     </script>
+     
 </body>
 </html>

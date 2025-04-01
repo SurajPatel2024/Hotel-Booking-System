@@ -475,8 +475,10 @@ app.post('/viewadmin/delete/:id', async (req, res) => {
  
 
 // Add New Room
-app.get('/admin/rooms/new', isLoggedIn, (req, res) => {
-  res.render('admin/new-room');
+app.get('/admin/rooms/new', isLoggedIn,async (req, res) => {
+  const rooms = await Room.find();
+  const message = ''
+  res.render('admin/new-room',{rooms,message});
 });
 
 app.post('/admin/rooms/new', isLoggedIn, upload.single('image'), async (req, res) => {
@@ -485,10 +487,10 @@ app.post('/admin/rooms/new', isLoggedIn, upload.single('image'), async (req, res
 
   try {
     const newRoom = new Room({
-      roomNumber,
+      roomNumber, 
       type,
       price,
-      status,
+      status, 
       description,
       image: image
         ? {
@@ -501,7 +503,9 @@ app.post('/admin/rooms/new', isLoggedIn, upload.single('image'), async (req, res
     await newRoom.save();
     res.redirect('/admin/dashboard');
   } catch (err) {
-    res.status(500).send('Error adding room: ' + err.message);
+    const rooms = await Room.find();
+    const message = '🚫This Room Number is already taken! Please enter another Room Number.';
+   return res.render('admin/new-room',{rooms,message});
   }
 });
 
