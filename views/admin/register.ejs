@@ -145,17 +145,31 @@
         }
     }
 
-    /* Keyframe Animation */
-    @keyframes fadeIn {
-        from {
-            opacity: 0;
-            transform: scale(0.95);
-        }
-        to {
-            opacity: 1;
-            transform: scale(1);
-        }
-    }
+/* Eye icon positioning inside password field */
+.input-wrapper {
+    position: relative;
+}
+
+.input-wrapper input {
+    width: 100%;
+    padding: 12px;
+    padding-right: 40px; /* Space for the eye icon */
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+}
+
+.input-wrapper .toggle-password {
+    position: absolute;
+    top: 50%;
+    right: 12px;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #aaa;
+    font-size: 18px;
+}
+
+
 </style>
 <body>
     <div class="form-container">
@@ -174,11 +188,16 @@
                 <span id="username-error" class="password-error">Only alphabets are allowed!</span>
             </div>
 
-            <!-- Password -->
-            <div class="form-group">
-                <label for="password">Password:</label>
-                <input type="password" name="password" id="password" required>
-            </div>
+            
+          <!-- Password -->
+<div class="form-group">
+    <label for="password">Password:</label>
+    <div class="input-wrapper">
+        <input type="password" name="password" id="password" required>
+        <i class="fas fa-eye toggle-password" id="togglePassword"></i>
+    </div>
+</div>
+
 
             <!-- Confirm Password -->
             <div class="form-group">
@@ -226,6 +245,22 @@
             errorText.style.display = "none";
         }
     }
+
+
+   
+    const togglePassword = document.getElementById('togglePassword');
+    const passwordInput = document.getElementById('password');
+
+    togglePassword.addEventListener('click', () => {
+        const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+        passwordInput.setAttribute('type', type);
+
+        togglePassword.classList.toggle('fa-eye');
+        togglePassword.classList.toggle('fa-eye-slash');
+    });
+ 
+
     </script>
+
 </body>
 </html>
